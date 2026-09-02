@@ -9,7 +9,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
   // this route - if token is expired - the server should refresh it
   console.log("Running admin middleware");
   const nuxtApp = useNuxtApp();
-  const config = useRuntimeConfig();
   // const supabase = useSupabaseClient();
   // const user = useSupabaseUser(); // problem - this doesnt refresh the session - serverSupabaseUser() does
 
@@ -17,7 +16,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   if (
     user.value === null ||
-    user.value.email !== config.public.adminEmail ||
     user.value.app_metadata?.role !== "admin"
   ) {
     return navigateTo("/admin/login");

@@ -13,7 +13,6 @@ useSeoMeta({
 
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
-const config = useRuntimeConfig();
 const router = useRouter();
 const { startLoading, stopLoading } = useLoading();
 const email = ref("");
@@ -22,10 +21,7 @@ const password = ref("");
 watch(
   user,
   (u) => {
-    if (
-      u?.email === config.public.adminEmail &&
-      u.app_metadata?.role === "admin"
-    ) {
+    if (u?.app_metadata?.role === "admin") {
       navigateTo("/admin/dashboard");
     }
   },
