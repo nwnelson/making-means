@@ -39,27 +39,15 @@ async function submit() {
 </script>
 
 <template>
-  <div class="verticalContent padded marginTop">
-    <h1>Add Artist</h1>
-    <form class="submissionForm" @submit.prevent="submit">
-      <label for="artist-name">Name</label>
-      <input id="artist-name" v-model="name" type="text" />
-      <label for="artist-bio">Bio</label>
-      <textarea id="artist-bio" v-model="bio"></textarea>
-      <label for="artist-portrait">Portrait</label>
-      <input
-        id="artist-portrait"
-        type="file"
-        accept="image/jpeg,image/png,image/gif,image/webp"
-        @change="selectPortrait"
-      />
-      <Button variant="primary" type="submit">Submit</Button>
-    </form>
+  <div class="admin-page admin-page--narrow">
+    <AdminPageHeader title="Add artist" description="Create a profile for a participating artist." />
+    <AdminPanel>
+      <form class="admin-form" @submit.prevent="submit">
+        <div class="admin-field"><label for="artist-name">Name</label><input id="artist-name" v-model="name" type="text" autocomplete="name" ></div>
+        <div class="admin-field"><label for="artist-bio">Biography</label><textarea id="artist-bio" v-model="bio" /><p class="admin-field__help">This biography will appear on the public artist page.</p></div>
+        <div class="admin-field"><label for="artist-portrait">Portrait</label><input id="artist-portrait" type="file" accept="image/jpeg,image/png,image/gif,image/webp" @change="selectPortrait" ><p class="admin-field__help">Use a clear JPEG, PNG, GIF, or WebP image.</p></div>
+        <div class="admin-form-actions"><Button type="submit">Create artist</Button><Button variant="secondary" type="button" @click="navigateTo('/admin/artists/artists')">Cancel</Button></div>
+      </form>
+    </AdminPanel>
   </div>
 </template>
-
-<style scoped>
-textarea {
-  min-height: 10rem;
-}
-</style>

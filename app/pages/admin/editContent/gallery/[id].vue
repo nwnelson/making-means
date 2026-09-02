@@ -26,8 +26,6 @@ const { startLoading, stopLoading } = useLoading();
 
 const viewFileUpload = ref(false);
 
-const offset = ref(0);
-
 function toggleFileUpload() {
   viewFileUpload.value = !viewFileUpload.value;
 }
@@ -38,7 +36,7 @@ async function uploadFiles(files: File[]) {
 
   const formData = new FormData();
   formData.append("artworkId", artworkId.value);
-  files.forEach((image, index) => {
+  files.forEach((image) => {
     formData.append(`image`, image);
   });
 
@@ -46,7 +44,7 @@ async function uploadFiles(files: File[]) {
     startLoading();
     await addArtworkImages(artworkId.value, formData);
     toast.success("Successfully added images!");
-  } catch (err) {
+  } catch {
     toast.error("something went wrong!");
   } finally {
     stopLoading();
@@ -67,27 +65,25 @@ const {
 </script>
 
 <template>
-  <h1>Gallery</h1>
-  <div v-if="pending">Loading gallery images...</div>
-  <div v-if="error">Failed to get gallery</div>
-  <FileUpload
-    v-if="viewFileUpload"
-    @close="toggleFileUpload"
-    @upload="uploadFiles"
-  />
-  <div v-if="gallery">
-    <div class="textBlock">
-      <h1>Artworks</h1>
-    </div>
-    <div class="artworksGrid">
-      <div v-for="g in gallery" :key="g.id" class="artworkContainer clickable">
-        <NuxtImg :src="g?.image_path ?? undefined" alt="" class="artwork" />
-        <Button variant="danger" @click="removePhoto(g.id)">Remove</Button>
-      </div>
+  <div class="admin-page">
+    <AdminPageHeader title="Artwork gallery" description="Manage the additional images shown with this artwork.">
+      <template #actions><Button variant="ghost" @click="navigateTo('/admin/editContent/artworks/' + artworkId)">Back to artwork</Button><Button @click="toggleFileUpload">Add photos</Button></template>
+    </AdminPageHeader>
+    <FileUpload v-if="viewFileUpload" @close="toggleFileUpload" @upload="uploadFiles" />
+    <AdminEmptyState v-if="error" title="Gallery could not be loaded" message="Refresh the page to try again." />
+    <div v-else-if="pending" class="admin-empty"><div class="admin-empty__content"><h2>Loading gallery…</h2></div></div>
+    <AdminEmptyState v-else-if="!gallery?.length" title="No gallery images" message="Add supporting images for this artwork."><Button @click="toggleFileUpload">Add photos</Button></AdminEmptyState>
+    <div v-else class="gallery-admin-grid">
+      <article v-for="g in gallery" :key="g.id" class="admin-card">
+        <NuxtImg :src="g.image_path ?? undefined" alt="Artwork gallery image" class="admin-card__image" />
+        <div class="admin-card__body"><div class="admin-card__actions"><Button variant="danger" @click="removePhoto(g.id)">Remove</Button></div></div>
+      </article>
     </div>
   </div>
-  <div v-else>No gallery images available.</div>
-  <Button variant="primary" @click="toggleFileUpload">Add Photos</Button>
 </template>
 
-<style></style>
+<style scoped>
+.gallery-admin-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1rem; }
+@media (min-width: 600px) { .gallery-admin-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .gallery-admin-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+</style>

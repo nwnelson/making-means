@@ -37,7 +37,7 @@ async function removeCollection(id: string) {
     toast.success("Successfully deleted collection!");
     collections.value =
       collections.value?.filter((collection) => collection.id !== id) ?? [];
-  } catch (err) {
+  } catch {
     toast.error("Something went wrong!");
   } finally {
     stopLoading();
@@ -50,45 +50,21 @@ const addCollection = () => {
 </script>
 
 <template>
-  <div class="verticalContent padded marginTop">
-    <!-- <div class="fullWidth bannerWide horizontalContent padded">
-      <h1>Collections</h1>
-      <Button class="buttonCol" @click="addCollection">Add Collection</Button>
-    </div> -->
-    <div class="textBlock horizontalContent spaceBetween largeWidth">
-      <h1>Collections</h1>
-      <Button class="buttonCol" @click="addCollection">Add</Button>
-    </div>
-    <div v-if="pending">Loading...</div>
-    <div v-else-if="error">Something went wrong</div>
-    <div v-else-if="collections" class="collectionsGridInternal">
-      <div
-        v-for="collection in collections"
-        :key="collection.id"
-        class="collectionContainer clickable"
-      >
-        <NuxtImg
-          :src="collection?.image_path ?? undefined"
-          alt=""
-          class="collectionImg"
-        />
-        <div class="collectionDetails">
-          <div>{{ collection?.collection_name }}</div>
-          <Button variant="danger" @click="removeCollection(collection.id)"
-            >Remove</Button
-          >
+  <div class="admin-page">
+    <AdminPageHeader title="Collections" description="Manage the project’s artwork collections.">
+      <template #actions><Button @click="addCollection">Add collection</Button></template>
+    </AdminPageHeader>
+    <AdminEmptyState v-if="error" title="Collections could not be loaded" message="Refresh the page to try again." />
+    <div v-else-if="pending" class="admin-empty"><div class="admin-empty__content"><h2>Loading collections…</h2></div></div>
+    <AdminEmptyState v-else-if="!collections?.length" title="No collections yet" message="Add a collection to organize artwork."><Button @click="addCollection">Add collection</Button></AdminEmptyState>
+    <div v-else class="admin-cards">
+      <article v-for="collection in collections" :key="collection.id" class="admin-card">
+        <NuxtImg :src="collection.image_path ?? undefined" :alt="collection.collection_name" class="admin-card__image" />
+        <div class="admin-card__body">
+          <h2>{{ collection.collection_name }}</h2>
+          <div class="admin-card__actions"><Button variant="danger" @click="removeCollection(collection.id)">Remove</Button></div>
         </div>
-      </div>
+      </article>
     </div>
   </div>
 </template>
-
-<style scoped>
-.collectionsGridInternal {
-  display: grid;
-  justify-items: center;
-  width: 100%;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1.5rem;
-}
-</style>

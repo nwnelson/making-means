@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { Order } from "@stripe/stripe-js";
 import { toast } from "vue-sonner";
 
 definePageMeta({
@@ -17,7 +16,7 @@ const { startLoading, stopLoading } = useLoading();
 
 const { data: orders, pending, error } = await getOrders();
 
-const selectedOrder = ref<any | null>(null);
+const selectedOrder = ref<string | null>(null);
 const showOrderDetails = ref(false);
 const showOrderOptions = ref(false);
 
@@ -71,91 +70,36 @@ function viewOrder(id: string) {
 </script>
 
 <template>
-  <div class="verticalContent">
+  <div class="admin-page">
     <PopupOptions
       v-if="showOrderOptions"
+      :items="['PAID', 'SHIPPED', 'DELIVERED']"
       @cancel="cancelStatusChange"
       @select="updateOrderStatus"
-      :items="['PAID', 'SHIPPED', 'DELIVERED']"
     />
     <OrderPopup
       v-if="showOrderDetails"
       :order="orders?.find((o) => o.id === selectedOrder)"
       @cancel="cancelViewOrder"
     />
-    <h1>Orders</h1>
-    <div v-if="pending">Loading orders</div>
-    <div v-else-if="error">Something went wrong</div>
-    <div v-else>
-      <div v-if="orders">
-        <div class="contentCard clickable">
-          <div class="orderGrid">
-            <span class="header">Buyer Name</span>
-            <span class="header">Amount</span>
-            <span class="header email">Status</span>
-            <span class="header">Address</span>
-            <span class="header date">Date Created</span>
-            <span></span>
-            <span></span>
-            <template v-for="order in orders" :key="order.id">
-              <span class="clickable">{{ order?.buyer_name }}</span>
-              <span class="clickable">${{ order?.amount }}</span>
-              <span class="email clickable">{{ order?.status }}</span>
-              <span class="cutoffText clickable">{{
-                order?.address_line_1
-              }}</span>
-              <span class="date clickable">{{
-                formatDateShort(order?.created_at) ?? ""
-              }}</span>
-              <Button @click.stop="changeOrderStatus(order.id)"
-                >Change Status</Button
-              >
-              <Button variant="secondary" @click.stop="viewOrder(order.id)"
-                >View Details</Button
-              >
-            </template>
-          </div>
-        </div>
-      </div>
+    <AdminPageHeader title="Orders" description="Review purchases, shipping details, and fulfillment status." />
+    <AdminEmptyState v-if="error" title="Orders could not be loaded" message="Refresh the page to try again." />
+    <div v-else-if="pending" class="admin-empty"><div class="admin-empty__content"><h2>Loading orders…</h2></div></div>
+    <AdminEmptyState v-else-if="!orders?.length" title="No orders yet" message="New purchases will appear here." />
+    <div v-else class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>Buyer</th><th>Amount</th><th>Status</th><th>Address</th><th>Created</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr v-for="order in orders" :key="order.id">
+            <td data-label="Buyer"><strong>{{ order.buyer_name }}</strong></td>
+            <td data-label="Amount">${{ order.amount }}</td>
+            <td data-label="Status"><AdminStatusBadge :status="order.status" /></td>
+            <td data-label="Address">{{ order.address_line_1 }}</td>
+            <td data-label="Created">{{ formatDateShort(order.created_at) ?? "" }}</td>
+            <td data-label="Actions"><div class="admin-table__actions"><Button size="sm" @click.stop="changeOrderStatus(order.id)">Change status</Button><Button size="sm" variant="secondary" @click.stop="viewOrder(order.id)">View details</Button></div></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
-
-<style scoped>
-.orderGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  /* border: 1px solid var(--text-color); */
-  border-radius: 10px;
-  padding: 1rem;
-  margin: 0 auto;
-  background-color: var(--theme-white);
-  gap: 1rem;
-  width: 100%;
-}
-
-.date {
-  display: none;
-}
-
-.email {
-  display: none;
-}
-
-@media (min-width: 768px) {
-}
-
-@media (min-width: 1024px) {
-  .date {
-    display: block;
-  }
-
-  .email {
-    display: block;
-  }
-
-  .orderGrid {
-    grid-template-columns: repeat(7, 1fr);
-  }
-}
-</style>

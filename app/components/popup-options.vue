@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const props = defineProps<{
+defineProps<{
   items: string[];
 }>();
 
@@ -14,43 +14,22 @@ function selectItem(item: string) {
 </script>
 
 <template>
-  <div class="overlay" @click.self.stop="emit('cancel')"">
-    <div class="modal">
-    <div class="submissionForm">
-      <h1>New Order Status</h1>
-      <!-- <div class="submissionForm"> -->
+  <div class="admin-dialog-backdrop" role="presentation" @click.self="emit('cancel')">
+    <section class="admin-dialog" role="dialog" aria-modal="true" aria-labelledby="status-dialog-title">
+      <h2 id="status-dialog-title">Change order status</h2>
+      <div class="status-options">
         <Button
           v-for="item in items"
           :key="item"
-          @click="selectItem(item)"
           variant="secondary"
-          >{{ item }}</Button
-        >
-      <!-- </div> -->
-      <Button @click="emit('cancel')" variant="danger">Cancel</Button>
-    </div>
-    </div>
+          @click="selectItem(item)"
+        >{{ item }}</Button>
+      </div>
+      <div class="admin-form-actions"><Button variant="ghost" @click="emit('cancel')">Cancel</Button></div>
+    </section>
   </div>
 </template>
 
-<style>
-.overlay {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  position: fixed;
-  background: rgba(0, 0, 0, 0.5);
-  inset: 0; /* top:0 right:0 bottom:0 left:0 */
-  z-index: 1;
-}
-
-.modal {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  opacity: 1;
-}
+<style scoped>
+.status-options { display: grid; gap: 0.6rem; }
 </style>

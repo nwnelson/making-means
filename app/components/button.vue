@@ -1,11 +1,13 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 type Variant = "primary" | "secondary" | "danger" | "ghost";
-// type Size = "sm" | "md" | "lg";
+type Size = "sm" | "md" | "lg";
 
 const props = defineProps<{
   variant?: Variant;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
+  size?: Size;
 }>();
 
 const emit = defineEmits<{
@@ -18,7 +20,7 @@ const onClick = (event: MouseEvent) => {
 
 // Default values
 const variant = props.variant ?? "primary";
-// const size = props.size ?? "md";
+const size = props.size ?? "md";
 const type = props.type ?? "button";
 </script>
 
@@ -27,7 +29,7 @@ const type = props.type ?? "button";
     :class="[
       'btn',
       `btn--${variant}`,
-      // `btn--${size}`,
+      `btn--${size}`,
       { 'btn--disabled': disabled },
     ]"
     :disabled="disabled"
@@ -53,21 +55,7 @@ const type = props.type ?? "button";
   padding: 0.35rem 0.75rem;
   font-size: 0.8rem;
   max-height: 2rem;
-  /* max-width: 2rem; */
 }
-
-/* .btn--sm {
-  padding: 0.35rem 0.75rem;
-  font-size: 0.8rem;
-}
-.btn--md {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-}
-.btn--lg {
-  padding: 0.75rem 1.25rem;
-  font-size: 1.1rem;
-} */
 
 .btn--primary {
   background: var(--theme-blue);
@@ -113,4 +101,5 @@ const type = props.type ?? "button";
     font-size: 1rem;
   }
 }
+
 </style>

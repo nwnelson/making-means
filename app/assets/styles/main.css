@@ -22,6 +22,11 @@ body {
   --error-color: rgb(240, 90, 90);
   --background-light: #323131;
 
+  --mm-gold: #d8c35a;
+  --mm-green: #102117;
+  --mm-black: #101a15;
+  --mm-white: #fafaf7;
+
   --text-color: #242424;
 
   --toastify-color-success: #22c55e;

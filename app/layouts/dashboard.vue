@@ -1,10 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="centerContent">
+  <div class="admin-shell">
     <NavBarInternal />
-    <div class="page centerContent">
+    <main class="admin-main">
       <slot />
-    </div>
+    </main>
   </div>
 </template>

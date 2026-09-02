@@ -52,128 +52,29 @@ const editArtwork = (artworkId: string) => {
 </script>
 
 <template>
-  <div v-if="artworks" class="verticalContent fullWidth paddedSides marginTop">
-    <div class="horizontalContent banner">
-      <h1>Artworks</h1>
-      <Button class="buttonCol" @click="addArtwork">Add Artwork</Button>
-    </div>
-    <div class="horizontalContent fullWidth padded">
-      <div class="fullWidth">
-        <div class="internalArtGrid">
-          <div class="header image">Image</div>
-          <div class="header title">Title</div>
-          <div class="header price">Price</div>
-          <div class="header created">Created</div>
-          <div class="header"></div>
-          <template
-            v-for="artwork in artworks"
-            :key="artwork?.id"
-            class="contentCard"
-          >
-            <div class="imageCell">
-              <NuxtImg
-                v-if="imagesLoaded"
-                :src="artwork?.image_path ?? undefined"
-                alt=""
-                class="artworkImg"
-                placeholder
-              />
-              <Lottie v-else name="img-placeholder" class="artworkImg" />
-            </div>
-            <div class="cutoffText gridText">{{ artwork?.title }}</div>
-            <div class="cutoffText gridText">
-              ${{ artwork.price ?? `$${0.0}` }}
-            </div>
-            <div class="created gridText">
-              {{ formatDateShort(artwork?.created_at) ?? "" }}
-            </div>
-            <div class="btnContainer">
-              <Button
-                variant="secondary"
-                @click="editArtwork(artwork?.id)"
-                class="buttonCol"
-                >Edit</Button
-              >
-            </div>
-          </template>
-        </div>
-      </div>
+  <div class="admin-page">
+    <AdminPageHeader title="Artworks" description="Manage exhibition artwork and gallery images.">
+      <template #actions><Button @click="addArtwork">Add artwork</Button></template>
+    </AdminPageHeader>
+    <AdminEmptyState v-if="error" title="Artworks could not be loaded" message="Refresh the page to try again." />
+    <AdminEmptyState v-else-if="!pending && !artworks?.length" title="No artworks yet" message="Add the first artwork to begin building the exhibition."><Button @click="addArtwork">Add artwork</Button></AdminEmptyState>
+    <div v-else class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>Image</th><th>Title</th><th>Price</th><th>Created</th><th><span class="sr-only">Actions</span></th></tr></thead>
+        <tbody>
+          <tr v-for="artwork in artworks" :key="artwork.id">
+            <td data-label="Image"><NuxtImg v-if="imagesLoaded" :src="artwork.image_path ?? undefined" :alt="artwork.title ?? 'Artwork'" class="admin-table__image" placeholder /><Lottie v-else name="img-placeholder" class="admin-table__image" /></td>
+            <td data-label="Title"><strong>{{ artwork.title }}</strong></td>
+            <td data-label="Price">${{ artwork.price ?? 0 }}</td>
+            <td data-label="Created">{{ formatDateShort(artwork.created_at) ?? "" }}</td>
+            <td data-label="Actions"><div class="admin-table__actions"><Button variant="secondary" size="sm" @click="editArtwork(artwork.id)">Edit</Button></div></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
 <style scoped>
-.gridText {
-  display: flex;
-  align-items: center;
-}
-
-.imageCell {
-  width: 45px;
-  height: 45px;
-}
-
-.artworkImg {
-  width: 100%;
-  height: 100%;
-  max-width: 100px;
-  max-height: 100px;
-  border-radius: 8px;
-  border: 1px solid var(--text-color);
-  box-shadow: 2px 4px rgba(0, 0, 0, 0.1);
-  object-fit: cover;
-}
-
-.internalArtGrid {
-  width: 100%;
-  display: grid;
-  margin: auto;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.5rem;
-  align-content: flex-start;
-  /* box-shadow: 2px 4px rgba(0, 0, 0, 0.1); */
-}
-
-/* .header {
-  font-weight: bold;
-} */
-
-/* .buttonCol {
-  width: 100px;
-} */
-
-.created {
-  display: none;
-}
-
-.btnContainer {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-}
-
-@media (min-width: 768px) {
-  .internalArtGrid {
-    width: 90%;
-  }
-
-  .imageCell {
-    width: 60px;
-    height: 60px;
-  }
-
-  .buttonCol {
-    width: 120px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .internalArtGrid {
-    width: 60%;
-    grid-template-columns: repeat(5, 1fr);
-  }
-  .created {
-    display: flex;
-  }
-}
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 </style>

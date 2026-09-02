@@ -25,65 +25,29 @@ async function deleteSelectedArtist(id: string, name: string) {
 </script>
 
 <template>
-  <div class="verticalContent padded marginTop">
-    <div class="textBlock horizontalContent spaceBetween largeWidth">
-      <h1>Artists</h1>
-      <Button @click="navigateTo('/admin/newContent/addArtist')">Add</Button>
-    </div>
-    <div v-if="pending">Loading...</div>
-    <div v-else-if="error">Artists could not be loaded.</div>
-    <div v-else-if="!artists?.length">No artists have been added.</div>
-    <div v-else class="artistsGridInternal">
-      <div v-for="artist in artists" :key="artist.id" class="artistContainer">
-        <NuxtImg :src="artist.image_path" :alt="`${artist.name} portrait`" />
-        <div class="artistDetails">
+  <div class="admin-page">
+    <AdminPageHeader title="Artists" description="Manage participating artists and their biographies.">
+      <template #actions><Button @click="navigateTo('/admin/newContent/addArtist')">Add artist</Button></template>
+    </AdminPageHeader>
+    <AdminEmptyState v-if="error" title="Artists could not be loaded" message="Refresh the page to try again." />
+    <div v-else-if="pending" class="admin-empty"><div class="admin-empty__content"><h2>Loading artists…</h2></div></div>
+    <AdminEmptyState v-else-if="!artists?.length" title="No artists yet" message="Add the first participating artist."><Button @click="navigateTo('/admin/newContent/addArtist')">Add artist</Button></AdminEmptyState>
+    <div v-else class="admin-cards">
+      <article v-for="artist in artists" :key="artist.id" class="admin-card artist-card">
+        <NuxtImg :src="artist.image_path" :alt="`${artist.name} portrait`" class="admin-card__image" />
+        <div class="admin-card__body">
           <h2>{{ artist.name }}</h2>
-          <p>{{ artist.bio }}</p>
-          <div class="horizontalContent">
-            <Button
-              variant="primary"
-              @click="navigateTo(`/admin/editContent/artists/${artist.id}`)"
-              >Edit</Button
-            >
-            <Button
-              variant="danger"
-              @click="deleteSelectedArtist(artist.id, artist.name)"
-              >Remove</Button
-            >
+          <p class="admin-card__copy">{{ artist.bio }}</p>
+          <div class="admin-card__actions">
+            <Button variant="secondary" @click="navigateTo(`/admin/editContent/artists/${artist.id}`)">Edit</Button>
+            <Button variant="danger" @click="deleteSelectedArtist(artist.id, artist.name)">Remove</Button>
           </div>
         </div>
-      </div>
+      </article>
     </div>
   </div>
 </template>
 
 <style scoped>
-.artistsGridInternal {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1.5rem;
-  width: 100%;
-}
-
-.artistContainer {
-  display: flex;
-  gap: 1rem;
-}
-
-.artistContainer img {
-  width: 10rem;
-  height: 10rem;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.artistDetails p {
-  white-space: pre-wrap;
-}
-
-@media (min-width: 768px) {
-  .artistsGridInternal {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
+.artist-card .admin-card__image { aspect-ratio: 16 / 10; object-position: center 25%; }
 </style>

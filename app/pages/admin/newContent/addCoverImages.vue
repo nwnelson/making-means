@@ -25,7 +25,7 @@ async function submit() {
     await addCoverImage(form);
     toast.success("Successfully added image!");
     await navigateTo("/admin/coverImages");
-  } catch (err) {
+  } catch {
     toast.error("Something went wrong!");
   } finally {
     stopLoading();
@@ -40,12 +40,13 @@ const onFileChange = (event: Event) => {
 </script>
 
 <template>
-  <div class="spaced vertical">
-    <h1>Add Cover Image for Landing Page</h1>
-    <div class="spaced">
-      <label for="image">New Image:</label>
-      <input @change="onFileChange" name="image" accept="image" type="file" />
-    </div>
-    <Button class="buttonCol" @click="submit">Submit</Button>
+  <div class="admin-page admin-page--narrow">
+    <AdminPageHeader title="Add cover image" description="Upload an image for the landing-page presentation." />
+    <AdminPanel>
+      <form class="admin-form" @submit.prevent="submit">
+        <div class="admin-field"><label for="cover-image">Image</label><input id="cover-image" name="image" accept="image/*" type="file" @change="onFileChange" ><p class="admin-field__help">Choose a high-quality image suitable for a large display.</p></div>
+        <div class="admin-form-actions"><Button type="submit">Add image</Button><Button variant="secondary" type="button" @click="navigateTo('/admin/coverImages')">Cancel</Button></div>
+      </form>
+    </AdminPanel>
   </div>
 </template>

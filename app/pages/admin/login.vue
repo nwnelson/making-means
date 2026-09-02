@@ -13,7 +13,6 @@ useSeoMeta({
 
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
-const router = useRouter();
 const { startLoading, stopLoading } = useLoading();
 const email = ref("");
 const password = ref("");
@@ -80,21 +79,16 @@ const login = async () => {
 </script>
 
 <template>
-  <div class="page centerContent">
-    <div class="verticalContent">
-      <h1>Login</h1>
-      <form class="submissionForm" @submit.prevent="login">
-        <input v-model="email" name="email" placeholder="Email" />
-        <input
-          type="password"
-          v-model="password"
-          name="password"
-          placeholder="Password"
-        />
-        <Button type="submit" size="sm">Login</Button>
+  <main class="admin-login-page">
+    <section class="admin-login-card">
+      <div class="admin-login-mark" aria-hidden="true">MM</div>
+      <h1>Admin sign in</h1>
+      <p>Sign in to manage Making Means content and orders.</p>
+      <form class="admin-form" @submit.prevent="login">
+        <div class="admin-field"><label for="admin-email">Email</label><input id="admin-email" v-model="email" name="email" type="text" autocomplete="email" ></div>
+        <div class="admin-field"><label for="admin-password">Password</label><input id="admin-password" v-model="password" name="password" type="password" autocomplete="current-password" ></div>
+        <div class="admin-form-actions"><Button type="submit" size="lg">Sign in</Button></div>
       </form>
-    </div>
-  </div>
+    </section>
+  </main>
 </template>
-
-<style></style>

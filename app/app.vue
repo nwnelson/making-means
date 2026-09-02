@@ -2,6 +2,9 @@
 import "vue-sonner/style.css";
 import { Toaster } from "vue-sonner";
 
+const route = useRoute();
+const showPublicHeader = computed(() => !route.path.startsWith("/admin"));
+
 useHead({
   titleTemplate: (titleChunk) =>
     titleChunk ? `${titleChunk} | Jamie Nelson Art` : "Jamie Nelson Art",
@@ -22,12 +25,12 @@ if (import.meta.server) {
 <template>
   <NuxtLoadingIndicator color="var(--text-color)" :height="2" />
   <LoadingOverlay />
-  <EntryHeader />
+  <EntryHeader v-if="showPublicHeader" />
   <NuxtLayout>
     <Toaster
-      richColors
+      rich-colors
       position="top-center"
-      :toastOptions="{
+      :toast-options="{
         class: 'toast',
       }"
     />

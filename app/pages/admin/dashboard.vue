@@ -44,166 +44,59 @@ watch(isLoading, (loading) => {
 </script>
 
 <template>
-  <div class="verticalMargin">
-    <div v-if="isLoading"></div>
-    <div v-else>
-      <section>
-        <div><h3>Dashboard Overview</h3></div>
-        <div class="verticalContent">
-          <div>
-            <div class="dashPanel">
-              <div class="panel">
-                <div class="statCard">
-                  <span>{{ stats?.artworks }}</span
-                  >Artworks
-                </div>
-              </div>
-              <div class="panel">
-                <div class="statCard">
-                  <span>{{ formatFunds(stats?.fundsRaised || 0) }}</span
-                  >Raised
-                </div>
-              </div>
-              <div class="panel">
-                <div class="statCard">
-                  <span>{{ stats?.orders }}</span
-                  >Orders
-                </div>
-              </div>
-            </div>
-          </div>
+  <div class="admin-page">
+    <AdminPageHeader title="Dashboard" description="An overview of artwork, orders, and funds raised." />
+
+    <div v-if="isLoading" class="admin-empty"><div class="admin-empty__content"><h2>Loading dashboard…</h2></div></div>
+    <AdminEmptyState v-else-if="statsError || artworksError || ordersError" title="Dashboard could not be loaded" message="Refresh the page to try again." />
+
+    <template v-else>
+      <section class="admin-section" aria-labelledby="overview-heading">
+        <div class="admin-section-heading"><h2 id="overview-heading">Overview</h2></div>
+        <div class="admin-stats">
+          <div class="admin-stat"><span class="admin-stat__value">{{ stats?.artworks ?? 0 }}</span><span class="admin-stat__label">Artworks</span></div>
+          <div class="admin-stat"><span class="admin-stat__value">{{ formatFunds(stats?.fundsRaised || 0) }}</span><span class="admin-stat__label">Funds raised</span></div>
+          <div class="admin-stat"><span class="admin-stat__value">{{ stats?.orders ?? 0 }}</span><span class="admin-stat__label">Orders</span></div>
         </div>
       </section>
-      <section>
-        <div><h3>Recent Activity</h3></div>
-        <div
-          v-if="artworks && artworks.length > 0"
-          class="recentArtworks"
-          @click="navigateTo('/admin/artworks')"
-        >
-          <div
-            v-for="artwork in artworks.slice(0, 2)"
-            :key="artwork?.id"
-            class="artworkCard"
-          >
-            <div class="dashArtworkContainer">
-              <NuxtImg
-                :src="artwork?.image_path ?? undefined"
-                :alt="artwork?.title ?? 'Artwork'"
-                class="cardImage"
-              />
-            </div>
-            <p class="cutoffText">{{ artwork?.title }}</p>
-          </div>
-        </div>
-        <div v-else class="noArtworks">No artworks yet</div>
-      </section>
-      <div><h3>Recent Orders</h3></div>
-      <section>
-        <div
-          v-if="orders && orders.length > 0"
-          class="recentArtworks"
-          @click="navigateTo('/admin/orders')"
-        >
-          <div
-            v-for="order in orders.slice(0, 2)"
-            :key="order?.id"
-            class="artworkCard"
-          >
-            <p class="cutoffText">${{ order?.amount }}</p>
-            <p class="cutoffText">{{ order?.buyer_name }}</p>
-          </div>
-        </div>
-        <div v-else class="noArtworks">No orders yet</div>
-      </section>
-    </div>
+
+      <div class="dashboard-columns">
+        <AdminPanel class="admin-section">
+          <div class="admin-section-heading"><h2>Recent artworks</h2><NuxtLink to="/admin/artworks" class="admin-text-link">View all</NuxtLink></div>
+          <ul v-if="artworks?.length" class="admin-list">
+            <li v-for="artwork in artworks.slice(0, 3)" :key="artwork.id">
+              <NuxtLink :to="`/admin/editContent/artworks/${artwork.id}`" class="admin-list-row">
+                <NuxtImg :src="artwork.image_path ?? undefined" :alt="artwork.title ?? 'Artwork'" class="admin-list-row__image" />
+                <div class="admin-list-row__content"><p class="admin-list-row__title">{{ artwork.title }}</p><p class="admin-list-row__meta">Open artwork</p></div>
+              </NuxtLink>
+            </li>
+          </ul>
+          <AdminEmptyState v-else title="No artworks yet" message="New artworks will appear here." />
+        </AdminPanel>
+
+        <AdminPanel class="admin-section">
+          <div class="admin-section-heading"><h2>Recent orders</h2><NuxtLink to="/admin/orders" class="admin-text-link">View all</NuxtLink></div>
+          <ul v-if="orders?.length" class="admin-list">
+            <li v-for="order in orders.slice(0, 3)" :key="order.id" class="admin-list-row">
+              <div class="admin-list-row__content"><p class="admin-list-row__title">{{ order.buyer_name }}</p><p class="admin-list-row__meta">{{ formatFunds(order.amount) }}</p></div>
+              <AdminStatusBadge :status="order.status" />
+            </li>
+          </ul>
+          <AdminEmptyState v-else title="No orders yet" message="New orders will appear here." />
+        </AdminPanel>
+      </div>
+    </template>
   </div>
 </template>
 
 <style scoped>
-section {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
+.dashboard-columns {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
-.recentArtworks {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.dashOverview {
-  display: flex;
-  flex-direction: column;
-  height: 20vh;
-  padding: 0;
-  border: 1px solid var(--text-color);
-}
-
-.dashPanel {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  border-radius: 8px;
-}
-
-.panel {
-  width: 5rem;
-  height: 5rem;
-  border: 1px solid var(--theme-grey);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.panel span {
-  font-size: 0.9rem;
-  font-weight: bold;
-}
-
-.statCard {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0;
-  align-items: left;
-}
-
-.artworkCard {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid var(--text-color);
-  border-radius: 8px;
-  padding: 0 0.5rem;
-  cursor: pointer;
-}
-
-.dashArtworkContainer {
-  width: 50px;
-  height: 50px;
-  border: 1px solid var(--theme-grey);
-  background-color: black;
-  border-radius: 8px;
-}
-
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-@media (min-width: 1024px) {
-  .panel {
-    width: 10rem;
-    height: 8rem;
-  }
-
-  .panel span {
-    font-size: 1.7rem;
-  }
+@media (min-width: 800px) {
+  .dashboard-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 </style>

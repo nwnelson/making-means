@@ -65,49 +65,22 @@ async function save() {
 </script>
 
 <template>
-  <div class="verticalContent padded marginTop">
-    <h1>Edit Artist</h1>
-    <div v-if="pending">Loading...</div>
-    <div v-else-if="error">Artist could not be loaded.</div>
-    <form v-else-if="artist" class="submissionForm" @submit.prevent="save">
-      <NuxtImg
-        :src="artist.image_path"
-        :alt="`${artist.name} portrait`"
-        class="portrait"
-      />
-      <label for="artist-name">Name</label>
-      <input id="artist-name" v-model="name" type="text" />
-      <label for="artist-bio">Bio</label>
-      <textarea id="artist-bio" v-model="bio"></textarea>
-      <label for="artist-portrait">Replace Portrait (Optional)</label>
-      <input
-        id="artist-portrait"
-        type="file"
-        accept="image/jpeg,image/png,image/gif,image/webp"
-        @change="selectPortrait"
-      />
-      <div class="horizontalContent">
-        <Button variant="primary" type="submit">Save Changes</Button>
-        <Button
-          variant="secondary"
-          type="button"
-          @click="navigateTo('/admin/artists/artists')"
-          >Cancel</Button
-        >
-      </div>
-    </form>
+  <div class="admin-page admin-page--narrow">
+    <AdminPageHeader title="Edit artist" description="Update the artist’s public profile." />
+    <div v-if="pending" class="admin-empty"><div class="admin-empty__content"><h2>Loading artist…</h2></div></div>
+    <AdminEmptyState v-else-if="error" title="Artist could not be loaded" message="Return to Artists and try again." />
+    <AdminPanel v-else-if="artist">
+      <form class="admin-form" @submit.prevent="save">
+        <NuxtImg :src="artist.image_path" :alt="`${artist.name} portrait`" class="admin-preview" />
+        <div class="admin-field"><label for="artist-name">Name</label><input id="artist-name" v-model="name" type="text" ></div>
+        <div class="admin-field"><label for="artist-bio">Biography</label><textarea id="artist-bio" v-model="bio" /></div>
+        <div class="admin-field"><label for="artist-portrait">Replace portrait <span class="optional">Optional</span></label><input id="artist-portrait" type="file" accept="image/jpeg,image/png,image/gif,image/webp" @change="selectPortrait" ><p class="admin-field__help">Leave this empty to keep the current portrait.</p></div>
+        <div class="admin-form-actions"><Button type="submit">Save changes</Button><Button variant="secondary" type="button" @click="navigateTo('/admin/artists/artists')">Cancel</Button></div>
+      </form>
+    </AdminPanel>
   </div>
 </template>
 
 <style scoped>
-.portrait {
-  width: 14rem;
-  height: 14rem;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-textarea {
-  min-height: 10rem;
-}
+.optional { color: #68736c; font-weight: 400; letter-spacing: 0; text-transform: none; }
 </style>

@@ -25,21 +25,21 @@ const selectItem = (item: DropDown) => {
 </script>
 
 <template>
-  <div class="dropdown" @click.outside="closeOptions">
+  <div class="dropdown">
     <div class="dropdownContainer">
-      <Button @click.stop="toggle">{{ label }}</Button>
+      <Button variant="secondary" type="button" @click.stop="toggle">{{ label }}</Button>
       <div v-show="isOpen" class="dropdownOptions" :class="{ active: isOpen }">
-        <div
+        <button
           v-for="(item, index) in items"
           :key="index"
+          type="button"
           class="dropdownItem"
           @click="selectItem(item)"
         >
           {{ item.label }}
-        </div>
+        </button>
       </div>
     </div>
-    <span></span>
   </div>
 </template>
 
@@ -62,19 +62,25 @@ const selectItem = (item: DropDown) => {
   background-color: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  border: 1px solid var(--theme-grey);
-  /* width: auto; */
-  width: 100%;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  align-items: stretch;
+  min-width: 12rem;
+  border: 1px solid rgb(16 33 23 / 30%);
+  box-shadow: 0 0.7rem 1.5rem rgb(16 33 23 / 15%);
 }
 
 .dropdownItem {
-  text-decoration: none;
-  list-style: none;
-  /* width: 100%; */
-  /* width: auto; */
-  /* padding: 0 auto; */
+  padding: 0.7rem 0.8rem;
+  border: 0;
+  border-bottom: 1px solid rgb(16 33 23 / 12%);
+  background: var(--mm-white);
+  color: var(--mm-green);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdownItem:hover,
+.dropdownItem:focus-visible {
+  background: rgb(216 195 90 / 20%);
 }
 </style>

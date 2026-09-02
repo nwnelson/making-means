@@ -154,168 +154,60 @@ async function deleteArtwork() {
 </script>
 
 <template>
-  <div class="fullWidth">
-    <div class="verticalContent verticalMargin paddedSides">
-      <div class="horizontalContent">
-        <div v-if="!isEditing">
-          <div v-if="pending">Loading details...</div>
-          <div v-if="error">There was an error getting artwork details</div>
-          <div v-else-if="artwork">
-            <div class="imgContainer">
-              <NuxtImg
-                :src="artwork?.image_path ?? undefined"
-                alt=""
-                class="artworkFull"
-              />
-            </div>
-            <div class="artworkDetails">
-              <div>
-                <div><span>Title:</span> {{ artwork?.title }}</div>
-                <div><span>Description:</span> {{ artwork?.description }}</div>
-                <div><span>Dimensions:</span> {{ artwork?.dimensions }}</div>
-                <div><span>Price:</span> ${{ artwork?.price || `$${0}` }}</div>
-              </div>
-            </div>
+  <div class="admin-page">
+    <AdminPageHeader :title="isEditing ? 'Edit artwork' : (artwork?.title || 'Artwork')" :description="isEditing ? 'Update artwork details and attribution.' : 'Review this artwork and manage its content.'">
+      <template #actions><Button variant="ghost" @click="navigateTo('/admin/artworks')">Back to artworks</Button></template>
+    </AdminPageHeader>
+
+    <div v-if="pending" class="admin-empty"><div class="admin-empty__content"><h2>Loading artwork…</h2></div></div>
+    <AdminEmptyState v-else-if="error" title="Artwork could not be loaded" message="Return to Artworks and try again." />
+
+    <template v-else-if="artwork">
+      <div v-if="!isEditing" class="artwork-editor-layout">
+        <AdminPanel><NuxtImg :src="artwork.image_path ?? undefined" :alt="artwork.title ?? 'Artwork'" class="artwork-editor-image" /></AdminPanel>
+        <AdminPanel>
+          <dl class="admin-detail-list">
+            <div><dt>Title</dt><dd>{{ artwork.title }}</dd></div>
+            <div><dt>Description</dt><dd>{{ artwork.description }}</dd></div>
+            <div><dt>Dimensions</dt><dd>{{ artwork.dimensions }}</dd></div>
+            <div><dt>Price</dt><dd>${{ artwork.price || 0 }}</dd></div>
+            <div v-if="artwork.artwork_note"><dt>Artwork note</dt><dd>{{ artwork.artwork_note }}</dd></div>
+          </dl>
+          <div class="admin-form-actions artwork-actions">
+            <Button @click="startEdit">Edit artwork</Button>
+            <Button variant="secondary" @click="navigateTo('/admin/editContent/gallery/' + artwork.id)">Manage gallery</Button>
+            <Button variant="danger" @click="deleteArtwork">Delete artwork</Button>
           </div>
-          <div class="btnContainer">
-            <Button variant="primary" size="lg" class="btn" @click="startEdit"
-              >Click to Edit Artwork</Button
-            >
-            <Button
-              variant="primary"
-              size="lg"
-              class="btn"
-              @click="navigateTo('/admin/editContent/gallery/' + artwork?.id)"
-              >Click to Edit Gallery</Button
-            >
-            <Button
-              variant="danger"
-              size="lg"
-              @click="deleteArtwork"
-              class="btn"
-              >Click to Delete Artwork</Button
-            >
-          </div>
-        </div>
-        <div v-if="isEditing" class="verticalContent spaced">
-          <label for="title">Title</label>
-          <textarea v-model="editedArtwork.title" type="text"></textarea>
-          <label for="description">Description</label>
-          <textarea v-model="editedArtwork.description" type="text"></textarea>
-          <label for="price">Price</label>
-          <textarea v-model="editedArtwork.price" type="text"></textarea>
-          <label for="dimensions">Size:</label>
-          <textarea v-model="editedArtwork.dimensions" type="text"></textarea>
-          <label for="artwork_note">Artwork Note (Optional):</label>
-          <textarea v-model="editedArtwork.artwork_note" type="text"></textarea>
-          <DropDown
-            label="Artist"
-            :items="artistItems"
-            @select="selectArtist"
-          />
-          <span>{{ artistName }}</span>
-          <p v-if="artistsError">Artists could not be loaded.</p>
-          <Button
-            variant="primary"
-            size="lg"
-            :disabled="artistsPending || !!artistsError || !artists?.length"
-            @click="save"
-            >Save Changes</Button
-          >
-          <Button variant="secondary" size="lg" @click="stopEdit"
-            >Cancel</Button
-          >
-        </div>
+        </AdminPanel>
       </div>
-    </div>
+
+      <AdminPanel v-else class="edit-form-panel">
+        <form class="admin-form" @submit.prevent="save">
+          <div class="admin-field"><label for="edit-artwork-title">Title</label><input id="edit-artwork-title" v-model="editedArtwork.title" type="text" ></div>
+          <div class="admin-field"><label for="edit-artwork-description">Description</label><textarea id="edit-artwork-description" v-model="editedArtwork.description" /></div>
+          <div class="admin-field"><label for="edit-artwork-price">Price <span class="field-unit">USD</span></label><input id="edit-artwork-price" v-model="editedArtwork.price" type="text" inputmode="decimal" ></div>
+          <div class="admin-field"><label for="edit-artwork-dimensions">Dimensions</label><input id="edit-artwork-dimensions" v-model="editedArtwork.dimensions" type="text" ></div>
+          <div class="admin-field"><label for="edit-artwork-note">Artwork note <span class="field-unit">Optional</span></label><textarea id="edit-artwork-note" v-model="editedArtwork.artwork_note" /></div>
+          <div class="admin-field"><span class="admin-field__label">Artist</span><DropDown label="Choose artist" :items="artistItems" @select="selectArtist" /><p v-if="artistName" class="admin-form-note">Selected: <strong>{{ artistName }}</strong></p><p v-if="artistsError" class="admin-form-note">Artists could not be loaded.</p></div>
+          <div class="admin-form-actions"><Button type="submit" :disabled="artistsPending || !!artistsError || !artists?.length">Save changes</Button><Button variant="secondary" type="button" @click="stopEdit">Cancel</Button></div>
+        </form>
+      </AdminPanel>
+    </template>
   </div>
 </template>
 
 <style scoped>
-.btn {
-  min-width: 170px;
-}
-
-.btnContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.hiddenInput {
-  display: none;
-}
-
-.fileInput {
-  cursor: pointer;
-  border: none;
-  font-size: 0.8rem;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: var(--theme-blue);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.35rem 0.75rem;
-  max-height: 2rem;
-  border-radius: 6px;
-  width: 170px;
-  color: white;
-}
-
-.fileInput:hover {
-  background: #2563eb;
-  opacity: 0.9;
-}
-
-.artworkFull {
+.artwork-editor-layout { display: grid; gap: 1.5rem; }
+.artwork-editor-image {
+  display: block;
+  width: 100%;
   max-width: 100%;
-  max-height: 50vh;
+  max-height: 70vh;
   height: auto;
   object-fit: contain;
-  border-radius: 8px;
 }
-.artworkDetails {
-  padding: 0.5rem 0;
-  height: auto;
-  margin: 0.5rem 0;
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-}
-
-.artworkDetails span {
-  font-weight: bold;
-}
-
-textarea {
-  border-radius: 8px;
-  border-color: var(--text-color);
-  width: 90%;
-  font-family: inherit;
-}
-
-@media (min-width: 768px) {
-  .btnContainer {
-    flex-direction: row;
-    justify-content: space-around;
-    gap: 1rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  textarea {
-    width: 25vw;
-    height: 5rem;
-  }
-
-  .btn {
-    width: 200px;
-  }
-
-  .fileInput {
-    width: 200px;
-  }
-}
+.artwork-actions { margin-top: 1.5rem; }
+.edit-form-panel { max-width: 46rem; }
+.field-unit { color: #68736c; font-weight: 400; letter-spacing: 0; text-transform: none; }
+@media (min-width: 900px) { .artwork-editor-layout { grid-template-columns: minmax(0, 1.2fr) minmax(20rem, 0.8fr); align-items: start; } }
 </style>

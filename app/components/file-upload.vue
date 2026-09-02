@@ -33,52 +33,57 @@ const submit = () => {
 </script>
 
 <template>
-  <div class="overlay" @click.self.stop="emit('close')">
-    <div class="modal">
-      <h1>Upload Files</h1>
-      <form class="verticalContent" @submit.prevent="submit">
-        <label>Select Files:</label>
+  <div class="admin-dialog-backdrop" role="presentation" @click.self="emit('close')">
+    <section class="admin-dialog" role="dialog" aria-modal="true" aria-labelledby="upload-dialog-title">
+      <h2 id="upload-dialog-title">Upload gallery images</h2>
+      <form class="admin-form" @submit.prevent="submit">
+        <p class="admin-form-note">Select one or more supporting images.</p>
 
         <div v-for="(f, i) in fileInputs" :key="i" class="file-row">
+          <label class="file-label" :for="`file-upload-${i}`">Image {{ i + 1 }}</label>
           <input
             :id="`file-upload-${i}`"
             type="file"
+            accept="image/*"
             @change="(e) => onFileChange(e, i)"
-          />
+          >
 
-          <span class="filename" v-if="f">{{ f.name }}</span>
+          <span v-if="f" class="filename">{{ f.name }}</span>
 
           <button
+            v-if="fileInputs.length > 1"
             type="button"
             class="remove"
-            v-if="fileInputs.length > 1"
             @click="() => removeInput(i)"
           >
             Remove
           </button>
         </div>
 
-        <Button type="submit" variant="primary">Upload</Button>
+        <div class="admin-form-actions"><Button type="submit">Upload images</Button><Button type="button" variant="secondary" @click="emit('close')">Cancel</Button></div>
       </form>
-    </div>
+    </section>
   </div>
 </template>
 
 <style scoped>
 .file-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.8rem;
+  border: 1px solid rgb(16 33 23 / 15%);
 }
+.file-label { font-size: 0.75rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; }
 .filename {
   font-size: 0.9rem;
-  color: var(--muted, #666);
+  color: #68736c;
 }
 .remove {
   background: transparent;
   border: none;
-  color: var(--danger, #b00);
+  color: #a62525;
+  padding: 0;
+  text-align: left;
   cursor: pointer;
 }
 </style>

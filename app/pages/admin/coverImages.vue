@@ -30,7 +30,7 @@ async function removeImage(id: number) {
     startLoading();
     await removeCoverImage(id);
     toast.success("Image has been removed!");
-  } catch (err) {
+  } catch {
     toast.error("Something went wrong");
   } finally {
     stopLoading();
@@ -39,30 +39,18 @@ async function removeImage(id: number) {
 </script>
 
 <template>
-  <div class="verticalContent padded marginTop">
-    <div class="textBlock horizontalContent spaceBetween largeWidth">
-      <h1>Cover images</h1>
-      <Button class="buttonCol" @click="addImage">Add</Button>
-    </div>
-    <div v-if="pending">Loading...</div>
-    <div v-else-if="error">Something went wrong</div>
-    <div v-else-if="coverImages" class="collectionsGridInternal">
-      <div
-        v-for="image in coverImages"
-        :key="image.id"
-        class="collectionContainer clickable"
-      >
-        <NuxtImg
-          :src="image?.image_path ?? undefined"
-          alt=""
-          class="collectionImg visible"
-        />
-        <div class="collectionDetails">
-          <Button variant="danger" @click="removeImage(image.id)"
-            >Remove</Button
-          >
-        </div>
-      </div>
+  <div class="admin-page">
+    <AdminPageHeader title="Cover images" description="Manage images used by the landing-page presentation.">
+      <template #actions><Button @click="addImage">Add image</Button></template>
+    </AdminPageHeader>
+    <AdminEmptyState v-if="error" title="Cover images could not be loaded" message="Refresh the page to try again." />
+    <div v-else-if="pending" class="admin-empty"><div class="admin-empty__content"><h2>Loading cover images…</h2></div></div>
+    <AdminEmptyState v-else-if="!coverImages?.length" title="No cover images yet" message="Add an image for the landing page."><Button @click="addImage">Add image</Button></AdminEmptyState>
+    <div v-else class="admin-cards">
+      <article v-for="image in coverImages" :key="image.id" class="admin-card">
+        <NuxtImg :src="image.image_path ?? undefined" alt="Landing page cover" class="admin-card__image" />
+        <div class="admin-card__body"><div class="admin-card__actions"><Button variant="danger" @click="removeImage(image.id)">Remove</Button></div></div>
+      </article>
     </div>
   </div>
 </template>
