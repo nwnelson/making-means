@@ -42,15 +42,22 @@ useSeoMeta({
 
       <div class="conversation-feature">
         <p class="conversation-description">
-          In this conversation, participating artists and members of The Oasis
-          Bulawayo reflect on creativity, home, diaspora, and the relationship
-          between Zimbabweans living abroad and the creative community in
-          Bulawayo.
+          In this conversation, three Zimbabwean artists living abroad
+speak with members of The Oasis Bulawayo about their
+connections to Zimbabwe, their artistic practices, and the
+creative communities they are part of.
+The conversation explores what is happening within Bulawayo’s
+creative community, some of the challenges it faces, and the
+ways Zimbabwean artists living abroad remain connected to
+home. Together, they consider the potential for greater
+exchange between creative communities in Zimbabwe and
+those living abroad, and reflect on what they hope might
+emerge from Making Means in the years ahead.
         </p>
 
         <div class="video-frame">
           <iframe
-            src="https://www.youtube-nocookie.com/embed/z8wrqe72YG4"
+            src="https://www.youtube.com/embed/WyZRulON4lo"
             title="Making Means conversation video"
             loading="lazy"
             referrerpolicy="strict-origin-when-cross-origin"

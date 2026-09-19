@@ -1,13 +1,23 @@
 <template>
-  <main class="entry-hero">
-    <div class="entry-mark" aria-label="Making Means">
-      <div class="entry-mark-letter entry-mark-letter--left">M</div>
-      <div class="entry-mark-name">MAKING MEANS</div>
-      <div class="entry-mark-letter entry-mark-letter--right">M</div>
-    </div>
+  <section class="entry-hero" aria-labelledby="entry-edition-title">
+    <svg class="entry-mark" viewBox="0 0 662 766" role="img" aria-label="Making Means">
+      <rect width="662" height="766" fill="var(--mm-gold)" />
+      <g fill="var(--mm-green)" font-family="Times New Roman, Times, serif" font-size="360">
+        <text x="60" y="440">M</text>
+        <text x="318" y="568" textLength="255" lengthAdjust="spacingAndGlyphs">M</text>
+      </g>
+      <rect x="286" width="98" height="766" fill="var(--mm-green)" />
+      <text
+        transform="translate(326 196) rotate(90)"
+        fill="var(--mm-gold)"
+        font-family="Times New Roman, Times, serif"
+        font-size="44"
+        letter-spacing="2"
+      >MAKING MEANS</text>
+    </svg>
 
-    <section class="entry-copy" aria-labelledby="entry-intro-title">
-      <p id="entry-intro-title" class="entry-intro">
+    <section class="entry-copy" aria-labelledby="entry-edition-title">
+      <p class="entry-intro">
         <strong>MAKING MEANS</strong> connects Zimbabwean artists living abroad
         with local creative organizations in Zimbabwe, creating opportunities
         for collaboration through art, conversation, and exchange. Through an
@@ -16,25 +26,21 @@
         initiatives.
       </p>
 
-      <div class="entry-edition">
-        <h1>2026 EDITION</h1>
-        <p>
-          This year's edition of Making Means is presented in collaboration
-          with <a href="https://theoasisbulawayo.com" target="_blank" rel="noreferrer">The Oasis Bulawayo.</a>
-        </p>
-      </div>
-      <div class="btn-container"> 
-      <NuxtLink to="/artworks/available" class="entry-cta">
-        VIEW ARTWORKS
-      </NuxtLink>
-    </div>
+      <h1 id="entry-edition-title">2026 EDITION</h1>
+      <p class="entry-banner">3 artists. One collaboration. A conversation across borders.</p>
+      <p class="entry-edition-description">
+        For the inaugural edition, three Zimbabwean artists living abroad have
+        created original works in support of
+        <a href="https://theoasisbulawayo.com" target="_blank" rel="noreferrer">The Oasis Bulawayo</a>,
+        an organisation supporting creatives and entrepreneurs in Bulawayo.
+      </p>
     </section>
-  </main>
+  </section>
 </template>
 
 <style scoped>
 .entry-hero {
-  --entry-content-height: clamp(22rem, min(36vw, 60dvh), 42rem);
+  --entry-content-height: clamp(26rem, min(42vw, 66dvh), 48rem);
 
   display: flex;
   justify-content: center;
@@ -47,63 +53,11 @@
 }
 
 .entry-mark {
-  position: relative;
-  flex: 0 0 var(--entry-content-height);
-  display: grid;
-  grid-template-columns: 43.75% 14% 42.25%;
-  grid-template-rows: 1fr;
-  align-items: center;
-  width: var(--entry-content-height);
+  display: block;
+  flex: 0 0 auto;
+  width: calc(var(--entry-content-height) * 662 / 766);
   max-width: 100%;
   height: var(--entry-content-height);
-  aspect-ratio: 1;
-  container-type: inline-size;
-  justify-self: center;
-  color: var(--mm-green);
-  background: var(--mm-gold);
-  box-shadow: 0 0 0 1px var(--mm-green);
-  overflow: hidden;
-  /* border: 2px solid green; */
-}
-
-.entry-mark-letter {
-  z-index: 1;
-  grid-row: 1;
-  place-self: center;
-  font-family: "Times New Roman", Times, serif;
-  font-size: clamp(12rem, 42cqw, 24rem);
-  line-height: 0.72;
-  letter-spacing: -0.16em;
-}
-
-.entry-mark-letter--left {
-  grid-column: 1 / 3;
-  transform: translate(-10%, -12%);
-}
-
-.entry-mark-letter--right {
-  grid-column: 2 / 4;
-  transform: translate(10%, 12%);
-}
-
-.entry-mark-name {
-  z-index: 2;
-  grid-column: 2;
-  grid-row: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  background: var(--mm-green);
-  color: var(--mm-gold);
-  font-family: "Times New Roman", Times, serif;
-  font-size: clamp(1.5rem, 5.25cqw, 3.25rem);
-  letter-spacing: 0;
-  line-height: 1;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  white-space: nowrap;
 }
 
 .entry-copy {
@@ -111,100 +65,56 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  gap: 1.5rem;
   min-width: 0;
-  height: var(--entry-content-height);
+  min-height: var(--entry-content-height);
   max-width: 68rem;
-  /* border: 2px solid purple; */
-}
-
-.entry-intro,
-.entry-edition p {
-  margin: 0;
   font-family: Lato, Arial, sans-serif;
-  font-size: clamp(1.25rem, 1.65vw, 2rem);
+  font-size: clamp(1.4rem, 1.9vw, 2.3rem);
   line-height: 1.4;
 }
 
+.entry-copy p,
+.entry-copy h1 {
+  margin: 0;
+}
+
 .entry-intro strong,
-.entry-edition h1 {
+.entry-copy h1,
+.entry-edition-description a {
   color: var(--mm-gold);
-  font-family: Lato, Arial, sans-serif;
   font-weight: 900;
 }
 
-.entry-edition {
-  /* margin-top: clamp(3rem, 5vw, 5.25rem); */
-}
-
-.entry-edition h1 {
-  margin: 0 0 1rem;
-  font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+.entry-copy h1 {
+  font-size: clamp(2rem, 2.8vw, 2.8rem);
   line-height: 1;
 }
 
-.entry-edition a {
-  color: var(--mm-gold);
+.entry-banner {
+  padding: 0.5rem 1rem;
+  background: var(--mm-gold);
+  color: var(--mm-green);
+}
+
+.entry-edition-description a {
   text-decoration: none;
 }
 
-.entry-edition a:hover {
+.entry-edition-description a:hover {
   text-decoration: underline;
   text-underline-offset: 0.15em;
 }
 
-.btn-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.entry-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  /* min-width: min(32rem, 100%); -----> TO DO: what is controlling width here?*/
-  /* min-height: 3rem; */
-  /* margin: clamp(3.5rem, 5vw, 5.5rem) auto 0; */
-  /* padding: 1rem 2.5rem; */
-  padding: 1.5rem 1rem;
-  border-radius: 999px;
-  background: var(--mm-white);
-  color: var(--mm-green);
-  font-family: Lato, Arial, sans-serif;
-  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
-  font-weight: 900;
-  line-height: 1;
-  text-align: center;
-  text-decoration: none;
-  transition: transform 180ms ease;
-}
-
-.entry-cta:hover {
-  transform: translateY(-0.2rem);
-}
-
-@media (min-width: 1201px) {
-  .entry-mark {
-    grid-template-columns: 42.25% 17% 40.75%;
-  }
-}
-
-@media (min-width: 1201px) and (max-height: 850px) {
+@media (min-width: 1201px) and (max-height: 950px) {
   .entry-hero {
-    --entry-content-height: clamp(20rem, 46dvh, 28rem);
+    --entry-content-height: clamp(23rem, 54dvh, 33rem);
 
     padding-block: clamp(1.5rem, 3dvh, 2.5rem);
   }
 
-  .entry-intro,
-  .entry-edition p {
-    font-size: clamp(1.1rem, 2.4dvh, 1.5rem);
-  }
-
-  .entry-cta {
-    padding-block: 1rem;
-    font-size: clamp(1.4rem, 3dvh, 2rem);
+  .entry-copy {
+    font-size: clamp(1.25rem, 2.8dvh, 1.75rem);
   }
 }
 
@@ -214,40 +124,15 @@
 
     flex-direction: column;
     gap: clamp(2.5rem, 7vw, 4rem);
-    min-height: auto;
     padding: 2.5rem 1.25rem 4rem;
   }
 
-  .entry-mark {
-    width: var(--entry-content-height);
-    height: var(--entry-content-height);
-  }
-
   .entry-copy {
+    flex: none;
     gap: clamp(2rem, 6vw, 3.5rem);
     width: min(100%, 42rem);
-    height: auto;
-  }
-
-  .entry-mark-letter {
-    font-size: clamp(8rem, 42cqw, 18rem);
-  }
-
-  .entry-mark-name {
-    font-size: clamp(1.1rem, 5.25cqw, 2rem);
-  }
-
-  .entry-intro,
-  .entry-edition p {
+    min-height: 0;
     font-size: clamp(1.25rem, 3vw, 1.75rem);
   }
-
-  .entry-cta {
-    width: 100%;
-    min-width: 0;
-    min-height: 5.25rem;
-    font-size: 1.55rem;
-  }
 }
-
 </style>

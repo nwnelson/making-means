@@ -24,46 +24,28 @@ useSeoMeta({
 
 <template>
   <div class="entry-page">
-    <EntryHero />
+    <main>
+      <EntryHero />
+      <EntryExhibition />
+      <EntryHowItWorks />
+    </main>
     <EntryContactStrip />
   </div>
 </template>
 
-<style>
-:root {
-  --mm-gold: #d8c35a;
-  --mm-green: #102117;
-  --mm-black: #101a15;
-  --mm-white: #fafaf7;
+<style scoped>
+.entry-page {
+  background: var(--mm-green);
+  color: var(--mm-white);
 }
 
-.entry-page {
-  min-height: calc(100dvh - 5.5rem);
-  overflow: hidden;
-  background: var(--mm-green);
+.entry-page :deep(.entry-hero) {
+  min-height: calc(100dvh - 5.5rem - 4rem);
 }
 
 @media (min-width: 1101px) {
-  .entry-page {
-    min-height: calc(100dvh - 7rem);
+  .entry-page :deep(.entry-hero) {
+    min-height: calc(100dvh - 7rem - 4rem);
   }
-}
-
-@media (min-width: 1201px) {
-  .entry-page {
-    height: calc(100dvh - 7rem);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .entry-page .entry-contact {
-    flex: 0 0 auto;
-  }
-
-  .entry-page .entry-hero {
-    flex: 1 1 auto;
-    min-height: 0;
-  }
-
 }
 </style>

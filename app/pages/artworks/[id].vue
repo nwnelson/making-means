@@ -104,36 +104,6 @@ const closeLightBox = () => {
   lightboxVisible.value = false;
 };
 
-async function confirmPayment() {
-  await navigateTo(`/payments/confirm/${id.value}`);
-}
-
-async function payWithStripe() {
-  try {
-    const { url } = await $fetch<{ url: string }>(
-      "/api/stripe/create-checkout-session",
-      {
-        method: "POST",
-        body: {
-          artworkId: id.value,
-          artworkName: artwork.value?.title,
-        },
-      },
-    );
-
-    if (url) {
-      window.location.href = url;
-    }
-  } catch (err) {
-    console.log(
-      "There was an error retrieving Stripe checkout session: " + err,
-    );
-    throw new Error("Failed to retrieve stripe checkout session", {
-      cause: err,
-    });
-  }
-}
-
 useHead({
   bodyAttrs: {
     class: "artwork-detail-route",
@@ -231,23 +201,9 @@ useHead({
           <p class="shipping-note">(Shipping calculated separately)</p>
         </div>
 
-        <div class="artwork-actions">
-          <button
-            type="button"
-            class="artwork-action"
-            :disabled="artwork.sold"
-            @click="payWithStripe"
-          >
-            Calculate shipping
-          </button>
-          <button
-            type="button"
-            class="artwork-action"
-            :disabled="artwork.sold"
-            @click="confirmPayment"
-          >
-            {{ artwork.sold ? "Sold" : "Purchase Artwork" }}
-          </button>
+        <div class="artwork-sales-notice">
+          <p class="sales-notice-title">NOT YET AVAILABLE FOR PURCHASE</p>
+          <p>Sales begin <time datetime="2026-10-01">October 1, 2026</time>.</p>
         </div>
       </section>
     </div>
@@ -463,34 +419,22 @@ useHead({
   font-style: italic;
 }
 
-.artwork-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1rem, 3vw, 3.5rem);
+.artwork-sales-notice {
   margin-top: clamp(1rem, 1.75vw, 1.75rem);
-}
-
-.artwork-action {
-  min-height: clamp(3rem, 3.5vw, 3.5rem);
-  padding: 0.6rem 1rem;
-  border: 0;
-  border-radius: 999px;
+  padding: 0.65rem clamp(1.25rem, 2vw, 2rem);
+  border-radius: 2.5rem;
   background: var(--artwork-gold);
   color: var(--artwork-green);
-  font-family: Lato, Arial, sans-serif;
   font-size: clamp(1rem, 1.35vw, 1.4rem);
+  line-height: 1.25;
+}
+
+.artwork-sales-notice p {
+  margin: 0;
+}
+
+.sales-notice-title {
   font-weight: 900;
-  cursor: pointer;
-}
-
-.artwork-action:hover:not(:disabled),
-.artwork-action:focus-visible:not(:disabled) {
-  filter: brightness(1.08);
-}
-
-.artwork-action:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
 }
 
 .artwork-message {
@@ -549,14 +493,4 @@ useHead({
   }
 }
 
-@media (max-width: 520px) {
-  .artwork-actions {
-    grid-template-columns: 1fr;
-    gap: 0.85rem;
-  }
-
-  .artwork-action {
-    min-height: 3.5rem;
-  }
-}
 </style>

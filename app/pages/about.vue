@@ -30,41 +30,46 @@ useSeoMeta({
       <div class="about-columns">
         <div class="about-column">
           <p>
-            <strong>Making Means</strong> is a pilot project developed as part
-            of Jamie Stambolie Nelson's master's research in Cultural
-            Management at the University of Puerto Rico. The project explores
-            how digital exhibitions can create meaningful connections between
-            Zimbabwean artists living abroad and creative communities in
-            Zimbabwe.
+            <strong>Making Means</strong> is an initiative connecting
+            Zimbabwean artists living abroad with locally led creative
+            organisations and community projects in Zimbabwe. Through art,
+            conversation, and collaboration, the initiative creates
+            opportunities for meaningful connections and exchange across
+            borders.
           </p>
 
-          <p class="about-highlight">
-            The project brings together artists living abroad with locally led
-            creative organizations and community projects in Zimbabwe. Through
-            artwork, conversation, and collaboration, Making Means explores how
-            these connections can create exchanges that extend beyond financial
-            support to include knowledge, skills, relationships, visibility,
-            and new opportunities.
+          <p>
+            <strong>Making Means</strong> brings artists living abroad into
+            conversation and collaboration with creative communities at home.
+            Through these connections, the project explores how creative
+            exchange can extend beyond financial support to include knowledge,
+            skills, relationships, visibility, and new opportunities.
           </p>
         </div>
 
         <div class="about-column">
           <p>
-            Each edition will remain permanently on the Making Means website,
-            creating an evolving digital archive of the artists, artworks,
-            collaborations, conversations, and community projects connected
-            through the initiative. Over time, the website will become more
-            than an exhibition platform—it will serve as an archive of
-            connections between Zimbabwean artists abroad and creative
-            communities at home.
+            Each edition will remain permanently on the
+            <strong>Making Means</strong> website, creating an evolving digital
+            archive of the artists, artworks, collaborations, conversations,
+            and community projects connected through the initiative. Over
+            time, the website will become more than an exhibition platform—it
+            will serve as an archive of connections between Zimbabwean artists
+            abroad and creative communities at home.
           </p>
 
-          <p class="about-highlight">
-            The 2026 edition is the first Making Means pilot, developed in
-            collaboration with The Oasis Bulawayo.
+          <p>
+            The 2026 edition is the first <strong>Making Means</strong> pilot,
+            developed in collaboration with The Oasis Bulawayo, an organisation
+            supporting creatives and entrepreneurs in Bulawayo.
           </p>
         </div>
       </div>
+
+      <p class="about-research">
+        Making Means was developed as part of Jamie Stambolie Nelson's master's
+        research in Cultural Management
+      </p>
     </section>
 
     <EntryContactStrip />
@@ -92,8 +97,10 @@ useSeoMeta({
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  justify-content: center;
-  padding: clamp(2.5rem, 3.8vw, 4.5rem) clamp(1.25rem, 5.7vw, 7rem);
+  justify-content: space-between;
+  min-height: 0;
+  padding: clamp(2.25rem, 4dvh, 4rem) clamp(1.25rem, 5.5vw, 7rem)
+    clamp(2rem, 4.5dvh, 4rem);
 }
 
 .about-content h1 {
@@ -110,29 +117,37 @@ useSeoMeta({
 
 .about-columns {
   display: grid;
-  width: min(100%, 72rem);
+  width: 100%;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(4rem, 7vw, 7rem);
-  margin: clamp(3rem, 5vw, 6rem) auto 0;
+  gap: clamp(4rem, 7.5vw, 9rem);
+  margin: clamp(2.5rem, 5dvh, 5rem) auto clamp(2rem, 4dvh, 4rem);
 }
 
 .about-column {
   display: flex;
   flex-direction: column;
-  gap: clamp(2.25rem, 3.4vw, 4rem);
+  gap: clamp(2rem, 4dvh, 3.75rem);
 }
 
 .about-column p {
   margin: 0;
-  font-size: clamp(1.125rem, 1.5vw, 1.8rem);
-  font-weight: 700;
-  line-height: 1.45;
+  font-size: clamp(1.05rem, 1.45vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.42;
 }
 
-.about-column strong,
-.about-highlight {
+.about-column strong {
   color: var(--mm-gold);
+  font-weight: 700;
+}
+
+.about-research {
+  margin: 0;
+  color: var(--mm-gold);
+  font-size: clamp(1.1rem, 1.55vw, 1.85rem);
   font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
 }
 
 @media (min-width: 1101px) {
@@ -141,7 +156,7 @@ useSeoMeta({
   }
 }
 
-@media (min-width: 1280px) and (min-height: 850px) {
+@media (min-width: 1280px) and (min-height: 760px) {
   .about-page {
     height: calc(100dvh - 7rem);
   }
@@ -155,27 +170,30 @@ useSeoMeta({
   }
 }
 
-@media (min-width: 1280px) and (min-height: 850px) and (max-height: 1050px) {
+@media (min-width: 1101px) and (max-height: 850px) {
   .about-content {
-    padding-block: 1.8rem;
+    padding-block: 1.5rem;
   }
 
   .about-content h1 {
-    font-size: 3.75rem;
+    font-size: clamp(3rem, 4vw, 3.75rem);
   }
 
   .about-columns {
-    gap: clamp(4rem, 7vw, 7rem);
-    margin-top: 2.5rem;
+    margin-block: 1.75rem;
   }
 
   .about-column {
-    gap: 1.75rem;
+    gap: 1.4rem;
   }
 
   .about-column p {
-    font-size: 1.0625rem;
-    line-height: 1.38;
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    line-height: 1.3;
+  }
+
+  .about-research {
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
   }
 }
 
@@ -192,11 +210,15 @@ useSeoMeta({
   .about-columns {
     grid-template-columns: 1fr;
     gap: 2.25rem;
-    margin-top: 2.75rem;
+    margin-block: 2.75rem;
   }
 
   .about-column {
     gap: 2.25rem;
+  }
+
+  .about-research {
+    text-align: left;
   }
 }
 </style>
