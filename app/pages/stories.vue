@@ -133,7 +133,7 @@ emerge from Making Means in the years ahead.
 .conversations-introduction {
   max-width: 78rem;
   margin: 0 auto;
-  font-size: clamp(1.15rem, 1.75vw, 1.75rem);
+  font-size: clamp(1.265rem, 1.925vw, 1.925rem);
   line-height: 1.28;
   text-align: center;
 }
@@ -196,6 +196,45 @@ emerge from Making Means in the years ahead.
   }
 }
 
+@media (min-width: 801px) {
+  .page-divider {
+    flex-basis: 1.5dvh;
+  }
+
+  .conversations-banner {
+    min-height: clamp(4rem, 10dvh, 7rem);
+  }
+
+  .conversations-banner h1 {
+    font-size: clamp(2.25rem, min(4vw, 5.5dvh), 4rem);
+  }
+
+  .conversations-content {
+    width: min(90%, 94rem);
+    padding-block: 2dvh;
+  }
+
+  .conversations-introduction,
+  .conversation-description {
+    font-size: clamp(1rem, min(1.35vw, 2.2dvh), 1.4rem);
+    line-height: 1.3;
+  }
+
+  .conversations-introduction {
+    font-size: clamp(1.1rem, min(1.485vw, 2.42dvh), 1.54rem);
+  }
+
+  .conversation-feature {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 4vw;
+    margin-top: 2.5dvh;
+  }
+
+  .video-frame {
+    width: min(100%, 34rem, 52dvh);
+  }
+}
+
 @media (max-width: 800px) {
   .conversations-page {
     min-height: 0;
@@ -239,6 +278,10 @@ emerge from Making Means in the years ahead.
   .conversations-introduction,
   .conversation-description {
     font-size: 1.05rem;
+  }
+
+  .conversations-introduction {
+    font-size: 1.155rem;
   }
 
   .video-frame {

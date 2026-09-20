@@ -1,6 +1,6 @@
 <template>
   <a
-    href="https://www.instagram.com/jamienelsonart?igsh=dnduYjk5amZzeTJ2&utm_source=qr"
+    href="https://www.instagram.com/making.means/"
     target="_blank"
     rel="noopener noreferrer"
   >

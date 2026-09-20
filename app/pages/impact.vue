@@ -39,21 +39,22 @@ useSeoMeta({
           <h2>2026 Pilot Project</h2>
           <p>
             100% of artwork sale proceeds from the exhibition will support an
-            art and entrepreneurship event for young people in Bulawayo, hosted
+            art workshop and exhibition in Bulawayo, hosted
             by The Oasis Bulawayo on November 20, 2026. These funds will make
-            possible: Art materials for a hands-on workshop, resources needed
-            to host the event, and other locally identified needs related to the
-            event.
+            possible: materials, facilitators, technical support, and refreshments. The artworks
+            help make the event possible.
           </p>
         </article>
 
         <article>
           <h2>Sharing More Than Resources</h2>
           <p>
-            Two of the artists participating in this online exhibition will
+            The artists participating in this online exhibition will
             also join the local event virtually, leading workshops based on
             their own experiences as practicing artists. In this way, the
-            project creates an exchange that goes beyond financial support:
+            project creates an exchange that goes beyond financial support.
+            In this way, Making Means creates an exchange that goes beyond
+            financial support:
             participating artists share their skills, knowledge, and
             experiences with the next generation of Zimbabwean creatives at
             home.
@@ -94,7 +95,7 @@ useSeoMeta({
 
 .impact-content {
   display: flex;
-  flex: 1 1 auto;
+  flex: 1 0 auto;
   flex-direction: column;
 }
 
@@ -107,11 +108,10 @@ useSeoMeta({
 .impact-intro {
   display: flex;
   flex: 1 1 auto;
-  min-height: 13rem;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: clamp(2.1rem, 4.5vw, 4.5rem) clamp(1.25rem, 10vw, 12rem);
+  padding: clamp(1.5rem, 4dvh, 3rem) clamp(1.25rem, 10vw, 12rem);
 }
 
 .impact-intro h1,
@@ -134,9 +134,10 @@ useSeoMeta({
 }
 
 .impact-intro p {
-  max-width: 82rem;
+  max-width: 90ch;
+  width: min(100%, 66vw);
   margin-top: clamp(1.25rem, 2vw, 2rem);
-  font-size: clamp(1.05rem, 1.45vw, 1.75rem);
+  font-size: clamp(1.15rem, 1.6vw, 1.925rem);
   font-weight: 700;
   line-height: 1.45;
 }
@@ -149,27 +150,28 @@ useSeoMeta({
 .impact-details {
   display: grid;
   flex: 1.55 1 auto;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(3rem, 7vw, 9rem);
-  padding: clamp(2rem, 3.25vw, 4rem) clamp(2rem, 4vw, 5rem);
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  gap: clamp(3rem, 8vw, 10rem);
+  padding: clamp(1.5rem, 3.5dvh, 3rem) clamp(2rem, 3.8vw, 5rem);
   background: var(--mm-gold);
   color: var(--mm-black);
 }
 
 .impact-details article {
-  align-self: center;
+  align-self: start;
 }
 
 .impact-details h2 {
   margin-bottom: clamp(1.1rem, 2vw, 2.1rem);
-  font-size: clamp(2rem, 2.7vw, 3.35rem);
+  font-size: clamp(1.75rem, 2.5vw, 3.35rem);
   font-weight: 900;
   line-height: 1.1;
 }
 
 .impact-details p {
-  font-size: clamp(1rem, 1.45vw, 1.75rem);
+  font-size: clamp(1.1rem, 1.6vw, 1.925rem);
   line-height: 1.45;
+  text-align: justify;
 }
 
 .impact-next {
@@ -190,9 +192,10 @@ useSeoMeta({
 }
 
 .impact-next p {
-  max-width: 78rem;
+  max-width: 90ch;
+  width: min(100%, 66vw);
   margin-top: 0.65rem;
-  font-size: clamp(1rem, 1.45vw, 1.75rem);
+  font-size: clamp(1.1rem, 1.6vw, 1.925rem);
   line-height: 1.4;
 }
 
@@ -203,14 +206,6 @@ useSeoMeta({
 }
 
 @media (min-width: 1280px) and (min-height: 850px) {
-  .impact-page {
-    height: calc(100dvh - 7rem);
-  }
-
-  .impact-content {
-    min-height: 0;
-  }
-
   .impact-page :deep(.entry-contact) {
     flex: 0 0 auto;
   }
@@ -228,7 +223,7 @@ useSeoMeta({
 
   .impact-intro p {
     margin-top: 0.75rem;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     line-height: 1.3;
   }
 
@@ -242,7 +237,7 @@ useSeoMeta({
   }
 
   .impact-details p {
-    font-size: 1rem;
+    font-size: 1.1rem;
     line-height: 1.35;
   }
 
@@ -256,12 +251,21 @@ useSeoMeta({
   }
 
   .impact-next p {
-    font-size: 1rem;
+    font-size: 1.1rem;
     line-height: 1.3;
   }
 }
 
 @media (max-width: 800px) {
+  .impact-intro p,
+  .impact-next p {
+    width: 100%;
+  }
+
+  .impact-details p {
+    text-align: left;
+  }
+
   .impact-intro {
     min-height: 0;
   }

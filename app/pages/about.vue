@@ -95,12 +95,11 @@ useSeoMeta({
 
 .about-content {
   display: flex;
-  flex: 1 1 auto;
+  flex: 1 0 auto;
   flex-direction: column;
   justify-content: space-between;
   min-height: 0;
-  padding: clamp(2.25rem, 4dvh, 4rem) clamp(1.25rem, 5.5vw, 7rem)
-    clamp(2rem, 4.5dvh, 4rem);
+  padding: clamp(2.25rem, 4dvh, 4rem) clamp(1.25rem, 5.5vw, 7rem);
 }
 
 .about-content h1 {
@@ -153,20 +152,6 @@ useSeoMeta({
 @media (min-width: 1101px) {
   .about-page {
     min-height: calc(100dvh - 7rem);
-  }
-}
-
-@media (min-width: 1280px) and (min-height: 760px) {
-  .about-page {
-    height: calc(100dvh - 7rem);
-  }
-
-  .about-content {
-    min-height: 0;
-  }
-
-  .about-page :deep(.entry-contact) {
-    flex: 0 0 auto;
   }
 }
 

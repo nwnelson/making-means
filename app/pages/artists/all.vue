@@ -43,7 +43,21 @@ const { data: artists, pending, error } = await getArtists();
       <ul v-else>
         <li v-for="artist in artists" :key="artist.id">
           <NuxtLink :to="`/artists/${artist.id}`">
-            {{ artist.name }}
+            <NuxtImg
+              v-if="artist.image_path"
+              :src="artist.image_path"
+              :alt="`Portrait of ${artist.name}`"
+              class="artist-portrait"
+              format="webp"
+              quality="80"
+              sizes="(max-width: 700px) 80vw, (max-width: 1000px) 40vw, 22vw"
+              width="600"
+              height="600"
+            />
+            <span v-else class="artist-portrait artist-portrait--fallback">
+              Portrait unavailable
+            </span>
+            <span class="artist-name">{{ artist.name }}</span>
           </NuxtLink>
         </li>
       </ul>
@@ -57,12 +71,10 @@ const { data: artists, pending, error } = await getArtists();
 .artists-page {
   --artists-gold: var(--mm-gold, #d8c35a);
   --artists-green: var(--mm-green, #102117);
-  --artists-ink: var(--mm-black, #101a15);
   --artists-white: var(--mm-white, #fafaf7);
   display: flex;
   flex-direction: column;
   min-height: calc(100dvh - 7rem);
-  border-top: clamp(0.65rem, 1vw, 1rem) solid var(--artists-green);
   background: var(--artists-green);
   color: var(--artists-white);
   font-family: Lato, Arial, sans-serif;
@@ -70,20 +82,18 @@ const { data: artists, pending, error } = await getArtists();
 
 .artists-heading {
   display: grid;
-  min-height: clamp(6.5rem, 10vw, 9rem);
-  padding: 1rem 1.25rem;
+  padding: clamp(2.5rem, 4vw, 5.25rem) 1.25rem;
   place-items: center;
-  background: var(--artists-gold);
-  color: var(--artists-ink);
+  color: var(--artists-gold);
   text-align: center;
 }
 
 .artists-heading h1 {
   margin: 0;
-  font-size: clamp(1.75rem, 3.5vw, 4rem);
+  font-size: clamp(2rem, 4.4vw, 5.75rem);
   font-weight: 400;
-  letter-spacing: 0.2em;
-  line-height: 1.05;
+  letter-spacing: 0.25em;
+  line-height: 1.15;
   text-transform: uppercase;
 }
 
@@ -91,15 +101,15 @@ const { data: artists, pending, error } = await getArtists();
   display: grid;
   flex: 1;
   min-height: 0;
-  padding: clamp(2.25rem, 5vh, 4rem) 1.5rem;
+  padding: clamp(2rem, 3.2vw, 4.25rem) 7.65vw clamp(3rem, 5vw, 6.5rem);
   place-items: center;
 }
 
 .artists-list ul {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(2rem, 4vh, 3.5rem);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 3.5rem 9.35vw;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -107,18 +117,49 @@ const { data: artists, pending, error } = await getArtists();
 }
 
 .artists-list li {
+  min-width: 0;
   max-width: 100%;
   text-align: center;
 }
 
 .artists-list li a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.75rem, 1vw, 1.25rem);
   color: inherit;
-  font-size: clamp(1.6rem, 3vw, 3.3rem);
+  font-size: clamp(1.1rem, 1.85vw, 2.4rem);
   font-weight: 400;
   line-height: 1.15;
+  text-decoration: none;
+}
+
+.artist-name {
   text-decoration: underline;
   text-decoration-thickness: 0.06em;
   text-underline-offset: 0.1em;
+}
+
+.artist-portrait {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: clamp(0.9rem, 1.2vw, 1.6rem);
+  object-fit: cover;
+}
+
+.artist-portrait--fallback {
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: #24372c;
+  font-size: 1rem;
+}
+
+.artists-list li a:focus-visible {
+  outline: 2px solid var(--artists-gold);
+  outline-offset: 0.5rem;
 }
 
 .artists-list li a:hover,
@@ -132,17 +173,63 @@ const { data: artists, pending, error } = await getArtists();
   text-align: center;
 }
 
-@media (max-width: 700px) {
+@media (min-width: 1001px) {
+  .artists-heading {
+    padding-block: clamp(1.25rem, 3dvh, 3rem);
+  }
+
+  .artists-heading h1 {
+    font-size: clamp(2rem, min(4.4vw, 6dvh), 5.75rem);
+  }
+
+  .artists-list {
+    min-height: auto;
+    padding-block: 2dvh 4dvh;
+  }
+
+  .artist-portrait {
+    width: min(100%, max(8rem, calc(100dvh - 28rem)));
+  }
+
+  .artists-list li a {
+    font-size: clamp(1.1rem, min(1.85vw, 3dvh), 2.4rem);
+  }
+
+  .artists-page :deep(.entry-contact) {
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 1100px) {
   .artists-page {
     min-height: calc(100dvh - 5.5rem);
   }
+}
 
+@media (max-width: 1000px) {
+  .artists-list ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 5vw;
+  }
+}
+
+@media (max-width: 700px) {
   .artists-heading h1 {
     letter-spacing: 0.12em;
   }
 
   .artists-list {
-    padding: 2.5rem 1rem;
+    padding: 1rem 10vw 3rem;
+  }
+
+  .artists-list ul {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 25rem;
+    gap: 2.5rem;
+  }
+
+  .artists-list li a {
+    font-size: 1.5rem;
   }
 }
 </style>

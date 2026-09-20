@@ -76,10 +76,10 @@
 }
 
 .how-actions {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-self: stretch;
+  display: grid;
+  grid-auto-rows: 1fr;
+  align-content: center;
+  align-self: center;
   gap: 3rem;
   border-left: 2px solid var(--mm-white);
   padding-left: clamp(2rem, 4vw, 4rem);
@@ -122,7 +122,7 @@
   }
 
   .how-actions {
-    align-items: center;
+    justify-items: center;
     border-top: 2px solid var(--mm-white);
     border-left: 0;
     padding-top: 2rem;
