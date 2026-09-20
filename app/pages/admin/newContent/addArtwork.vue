@@ -93,7 +93,7 @@ const submit = async () => {
     <AdminPanel>
     <form class="admin-form" @submit.prevent="submit">
       <div class="admin-field"><label for="artwork-title">Title</label><input id="artwork-title" v-model="artwork.title" type="text" ></div>
-      <div class="admin-field"><label for="artwork-description">Description</label><textarea id="artwork-description" v-model="artwork.description" /></div>
+      <div class="admin-field"><label for="artwork-description">Description</label><textarea id="artwork-description" v-model="artwork.description" maxlength="5000" /></div>
       <div class="admin-field"><label for="artwork-price">Price <span class="field-unit">USD</span></label><input id="artwork-price" v-model="artwork.price" type="text" inputmode="decimal" ></div>
       <div class="admin-field"><label for="artwork-dimensions">Dimensions</label><input id="artwork-dimensions" v-model="artwork.dimensions" type="text" ><p class="admin-field__help">Include the unit, for example 50 × 70 cm.</p></div>
       <div class="admin-field"><label for="artwork-note">Artwork note <span class="field-unit">Optional</span></label><textarea id="artwork-note" v-model="artwork.artwork_note" /></div>

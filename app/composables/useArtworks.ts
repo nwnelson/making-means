@@ -76,7 +76,10 @@ export function useArtworks() {
       if (!response.ok) {
         return {
           success: false,
-          message: result?.message || "Failed to submit artwork!",
+          message:
+            result?.data?.message ||
+            result?.statusMessage ||
+            "Failed to submit artwork. Please try again.",
         };
       }
 

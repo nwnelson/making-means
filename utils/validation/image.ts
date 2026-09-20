@@ -1,24 +1,25 @@
 import type { UploadInput } from "~~/server/services/storage.service";
 
-export async function validateImageFile(file?: UploadInput | null) {
-  if (!file) {
-    return false;
-  }
+export function getImageValidationMessage(file?: UploadInput | null) {
+  if (!file) return "Please select an image.";
 
-  let buffer = file.buffer;
   const type = file.contentType;
   if (
     !type ||
     !["image/jpeg", "image/png", "image/gif", "image/webp"].includes(type)
   ) {
-    return false;
+    return "Unsupported image type. Please use JPEG, PNG, GIF, or WebP.";
   }
 
   // Check file size
   const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
   if (file?.size && file.size > maxSizeInBytes) {
-    return false;
+    return "Image is too large. The maximum file size is 5 MB.";
   }
 
-  return true;
+  return null;
+}
+
+export async function validateImageFile(file?: UploadInput | null) {
+  return getImageValidationMessage(file) === null;
 }

@@ -7,7 +7,7 @@ import { requireAdmin } from "@server/utils/auth/requireAdmin";
 import { UploadInput } from "~~/server/services/storage.service";
 import type { NewArtworkData } from "#types/artworks/artworks";
 import { extractNewArtworkFormData } from "~~/server/utils/form/artworkForm";
-import { validateImageFile } from "~~/utils/validation/image";
+import { getImageValidationMessage } from "~~/utils/validation/image";
 
 export default defineEventHandler(async (event) => {
   const adminUser = await requireAdmin(event);
@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
       statusCode: 400,
       statusMessage: "Bad Request",
       data: {
-        message: "No form data received",
+        message: "Please complete the artwork form.",
       },
     });
   }
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
       statusCode: 400,
       statusMessage: "Bad Request",
       data: {
-        message: "Invalid form!",
+        message: "Please provide an artwork image and complete all required fields.",
       },
     });
   }
@@ -40,12 +40,12 @@ export default defineEventHandler(async (event) => {
   const validatedForm = await validateNewArtworkForm(artworkForm);
   if (!validatedForm.success) {
     // invalid form
-    console.log("Invalid form!");
+    console.log("Invalid artwork form");
     throw createError({
       statusCode: 400,
       statusMessage: "Bad Request",
       data: {
-        message: "Invalid form!",
+        message: validatedForm.error.issues[0]?.message || "Please check the artwork details.",
       },
     });
   }
@@ -58,13 +58,14 @@ export default defineEventHandler(async (event) => {
   };
 
   // validate image
-  if (await !validateImageFile(image)) {
+  const imageValidationMessage = getImageValidationMessage(image);
+  if (imageValidationMessage) {
     console.log("Invalid image file!");
     throw createError({
       statusCode: 400,
       statusMessage: "Bad Request",
       data: {
-        message: "Invalid image file!",
+        message: imageValidationMessage,
       },
     });
   }
@@ -80,9 +81,9 @@ export default defineEventHandler(async (event) => {
     console.log("error adding artwork: " + err);
     throw createError({
       statusCode: 500,
-      statusMessage: "Failed to create artwork!",
+      statusMessage: "Failed to create artwork",
       data: {
-        err,
+        message: "The artwork could not be uploaded. Please try again.",
       },
     });
   }
