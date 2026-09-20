@@ -6,10 +6,10 @@ definePageMeta({
 useSeoMeta({
   title: "Available Artwork",
   description:
-    "Browse currently available original artworks by Jamie Nelson and view pieces that are ready for purchase.",
+    "Browse available original artworks from Making Means artists and find pieces ready for purchase.",
   ogTitle: "Available Artwork",
   ogDescription:
-    "Browse currently available original artworks by Jamie Nelson and view pieces that are ready for purchase.",
+    "Browse available original artworks from Making Means artists and find pieces ready for purchase.",
 });
 
 const { getArtworks } = useArtworks();

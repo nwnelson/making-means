@@ -13,12 +13,12 @@ useHead({
 });
 
 useSeoMeta({
-  title: "Original Artwork Portfolio",
+  title: "Making Means",
   description:
-    "Discover original mixed media artwork by Jamie Nelson, explore featured pieces, and browse a visual-first artist portfolio.",
-  ogTitle: "Jamie Nelson Art",
+    "Discover Making Means: an exhibition connecting Zimbabwean artists abroad with creative communities at home, supporting The Oasis Bulawayo.",
+  ogTitle: "Making Means",
   ogDescription:
-    "Discover original mixed media artwork by Jamie Nelson, explore featured pieces, and browse a visual-first artist portfolio.",
+    "Discover Making Means: an exhibition connecting Zimbabwean artists abroad with creative communities at home, supporting The Oasis Bulawayo.",
 });
 </script>
 

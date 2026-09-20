@@ -7,16 +7,18 @@ const showPublicHeader = computed(() => !route.path.startsWith("/admin"));
 
 useHead({
   titleTemplate: (titleChunk) =>
-    titleChunk ? `${titleChunk} | Jamie Nelson Art` : "Jamie Nelson Art",
+    titleChunk && titleChunk !== "Making Means"
+      ? `${titleChunk} | Making Means`
+      : "Making Means",
 });
 
 if (import.meta.server) {
   useSeoMeta({
-    applicationName: "Jamie Nelson Art",
-    author: "Jamie Nelson",
-    creator: "Jamie Nelson",
-    publisher: "Jamie Nelson Art",
-    ogSiteName: "Jamie Nelson Art",
+    applicationName: "Making Means",
+    author: "Making Means",
+    creator: "Making Means",
+    publisher: "Making Means",
+    ogSiteName: "Making Means",
     ogLocale: "en_US",
     twitterCard: "summary_large_image",
   });

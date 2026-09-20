@@ -4,12 +4,16 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
     head: {
-      title: "Jamie Nelson Art",
+      title: "Making Means",
       htmlAttrs: {
         lang: "en",
       },
       link: [
-        { rel: "icon", type: "image/x-icon", href: "/favicon.svg" },
+        {
+          rel: "icon",
+          type: "image/svg+xml",
+          href: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"/>',
+        },
         {
           rel: "apple-touch-icon",
           sizes: "180x180",
@@ -21,7 +25,7 @@ export default defineNuxtConfig({
         {
           name: "description",
           content:
-            "Discover unique artworks by Jamie Nelson. Shop original mixed media artworks to inspire your home",
+            "Making Means connects Zimbabwean artists abroad with creative communities at home through art exhibitions, conversations, and collaboration.",
         },
       ],
     },

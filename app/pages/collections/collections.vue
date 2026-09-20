@@ -9,10 +9,10 @@ definePageMeta({
 useSeoMeta({
   title: "Collections",
   description:
-    "Browse Jamie Nelson's artwork collections and explore bodies of work organized by theme and series.",
+    "Browse artwork collections on Making Means and discover participating artists through their themes and series.",
   ogTitle: "Artwork Collections",
   ogDescription:
-    "Browse Jamie Nelson's artwork collections and explore bodies of work organized by theme and series.",
+    "Browse artwork collections on Making Means and discover participating artists through their themes and series.",
 });
 
 const { getCollections } = useCollections();

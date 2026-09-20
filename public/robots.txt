@@ -1,2 +1,7 @@
-User-Agent: *
-Disallow:
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /payments
+Disallow: /api
+
+Sitemap: https://makingmeans.com/sitemap.xml

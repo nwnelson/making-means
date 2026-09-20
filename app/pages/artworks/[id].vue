@@ -22,11 +22,11 @@ useSeoMeta({
   title: () => artwork.value?.title || "Artwork",
   description: () =>
     artwork.value?.description ||
-    "View artwork details, pricing, and availability for this original piece by Jamie Nelson.",
+    "View artwork details, pricing, and availability for this original piece exhibited on Making Means.",
   ogTitle: () => artwork.value?.title || "Artwork",
   ogDescription: () =>
     artwork.value?.description ||
-    "View artwork details, pricing, and availability for this original piece by Jamie Nelson.",
+    "View artwork details, pricing, and availability for this original piece exhibited on Making Means.",
   ogImage: () => artwork.value?.image_path || undefined,
 });
 

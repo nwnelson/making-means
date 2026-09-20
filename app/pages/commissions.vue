@@ -8,10 +8,10 @@ definePageMeta({
 useSeoMeta({
   title: "Commissions",
   description:
-    "Contact Jamie Nelson about custom commission artwork and collaborative mixed media pieces.",
+    "Explore commission artwork and creative collaboration opportunities through Making Means.",
   ogTitle: "Commission Artwork",
   ogDescription:
-    "Contact Jamie Nelson about custom commission artwork and collaborative mixed media pieces.",
+    "Explore commission artwork and creative collaboration opportunities through Making Means.",
 });
 </script>
 
