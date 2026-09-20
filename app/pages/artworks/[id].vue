@@ -194,7 +194,6 @@ useHead({
         <div class="artwork-metadata">
           <p v-if="artwork.artist">{{ artwork.artist.name }}</p>
           <h1>{{ artwork.title }}, 2026</h1>
-          <p>Cyanotype, acrylic, and charcoal on cotton</p>
           <p>{{ artwork.dimensions }}</p>
           <p class="metadata-emphasis">Location: Portugal</p>
           <p class="metadata-emphasis">Price: {{ formattedPrice }}</p>
