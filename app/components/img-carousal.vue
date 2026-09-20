@@ -108,7 +108,7 @@ const reversed = computed<CoverImageRow[]>(() => {
 .carouselImg {
   width: 100%;
   aspect-ratio: 1 / 1;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 @media (min-width: 768px) {

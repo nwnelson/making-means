@@ -203,7 +203,7 @@ async function viewArtwork(id: string) {
   width: 5rem;
   height: 5rem;
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: contain;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
