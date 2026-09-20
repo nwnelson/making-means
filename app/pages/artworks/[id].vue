@@ -317,6 +317,8 @@ useHead({
   display: grid;
   width: 100%;
   height: 100%;
+  min-width: 0;
+  min-height: 0;
   padding: 0;
   place-items: center;
   overflow: hidden;
@@ -329,6 +331,8 @@ useHead({
   display: block;
   width: 100%;
   height: 100%;
+  min-width: 0;
+  min-height: 0;
   object-fit: contain;
   opacity: 0;
   transition: opacity 0.3s ease;
