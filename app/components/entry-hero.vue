@@ -31,7 +31,7 @@
       <p class="entry-edition-description">
         For the inaugural edition, three Zimbabwean artists living abroad have
         created original works in support of
-        <a href="https://theoasisbulawayo.com" target="_blank" rel="noreferrer">The Oasis Bulawayo</a>,
+        <a href="/the-oasis">The Oasis Bulawayo</a>,
         an organisation supporting creatives and entrepreneurs in Bulawayo.
       </p>
     </section>
