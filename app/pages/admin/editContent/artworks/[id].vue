@@ -46,6 +46,7 @@ useSeoMeta({
 const editedArtwork = ref<ArtworkData>({
   title: "",
   description: "",
+  location: "",
   dimensions: "",
   price: "",
   artist: artwork.value?.artist_id || "",
@@ -61,6 +62,7 @@ function startEdit() {
   editedArtwork.value = {
     title: artwork.value?.title || "",
     description: artwork.value?.description || "",
+    location: artwork.value?.location || "",
     dimensions: artwork.value?.dimensions || "",
     price: artwork.value?.price?.toString() || "",
     artist: artwork.value?.artist_id || "",
@@ -77,6 +79,7 @@ function stopEdit() {
   editedArtwork.value = {
     title: "",
     description: "",
+    location: "",
     dimensions: "",
     price: "",
     artist: artwork.value?.artist_id || "",
@@ -92,6 +95,7 @@ async function save() {
   isEditing.value = false;
   const newTitle = editedArtwork.value.title;
   const newDesc = editedArtwork.value.description;
+  const newLocation = editedArtwork.value.location?.trim() || "";
   const newPrice = editedArtwork.value.price;
   const newDimensions = editedArtwork.value.dimensions;
   const newArtist = editedArtwork.value.artist;
@@ -104,6 +108,7 @@ async function save() {
   if (
     newTitle === artwork.value?.title &&
     newDesc === artwork.value?.description &&
+    newLocation === (artwork.value?.location || "") &&
     newPrice === artwork.value?.price?.toString() &&
     newDimensions === artwork.value?.dimensions &&
     newArtist === artwork.value?.artist_id &&
@@ -117,6 +122,7 @@ async function save() {
   form.append("id", artworkId.value);
   form.append("title", newTitle);
   form.append("description", newDesc);
+  form.append("location", newLocation);
   form.append("dimensions", newDimensions);
   form.append("artist", newArtist);
   form.append("artwork_note", newNote);
@@ -169,6 +175,7 @@ async function deleteArtwork() {
           <dl class="admin-detail-list">
             <div><dt>Title</dt><dd>{{ artwork.title }}</dd></div>
             <div><dt>Description</dt><dd>{{ artwork.description }}</dd></div>
+            <div v-if="artwork.location"><dt>Location</dt><dd>{{ artwork.location }}</dd></div>
             <div><dt>Dimensions</dt><dd>{{ artwork.dimensions }}</dd></div>
             <div><dt>Price</dt><dd>${{ artwork.price || 0 }}</dd></div>
             <div v-if="artwork.artwork_note"><dt>Artwork note</dt><dd>{{ artwork.artwork_note }}</dd></div>
@@ -187,6 +194,7 @@ async function deleteArtwork() {
           <div class="admin-field"><label for="edit-artwork-description">Description</label><textarea id="edit-artwork-description" v-model="editedArtwork.description" /></div>
           <div class="admin-field"><label for="edit-artwork-price">Price <span class="field-unit">USD</span></label><input id="edit-artwork-price" v-model="editedArtwork.price" type="text" inputmode="decimal" ></div>
           <div class="admin-field"><label for="edit-artwork-dimensions">Dimensions</label><input id="edit-artwork-dimensions" v-model="editedArtwork.dimensions" type="text" ></div>
+          <div class="admin-field"><label for="edit-artwork-location">Location <span class="field-unit">Optional</span></label><input id="edit-artwork-location" v-model="editedArtwork.location" type="text" ></div>
           <div class="admin-field"><label for="edit-artwork-note">Artwork note <span class="field-unit">Optional</span></label><textarea id="edit-artwork-note" v-model="editedArtwork.artwork_note" /></div>
           <div class="admin-field"><span class="admin-field__label">Artist</span><DropDown label="Choose artist" :items="artistItems" @select="selectArtist" /><p v-if="artistName" class="admin-form-note">Selected: <strong>{{ artistName }}</strong></p><p v-if="artistsError" class="admin-form-note">Artists could not be loaded.</p></div>
           <div class="admin-form-actions"><Button type="submit" :disabled="artistsPending || !!artistsError || !artists?.length">Save changes</Button><Button variant="secondary" type="button" @click="stopEdit">Cancel</Button></div>

@@ -77,6 +77,7 @@ export type Database = {
           dimensions: string | null
           id: string
           image_path: string | null
+          location: string | null
           price: number | null
           publish_on: string | null
           sold: boolean
@@ -93,6 +94,7 @@ export type Database = {
           dimensions?: string | null
           id?: string
           image_path?: string | null
+          location?: string | null
           price?: number | null
           publish_on?: string | null
           sold?: boolean
@@ -109,6 +111,7 @@ export type Database = {
           dimensions?: string | null
           id?: string
           image_path?: string | null
+          location?: string | null
           price?: number | null
           publish_on?: string | null
           sold?: boolean

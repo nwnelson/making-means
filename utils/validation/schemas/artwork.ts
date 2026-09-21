@@ -12,6 +12,7 @@ export const artworkFormSchema = z
       .string()
       .min(1, { message: "Description is required" })
       .max(5000, { message: "Description is too long (maximum 5,000 characters)" }),
+    location: z.string().nullable().optional(),
     price: priceSchema,
     dimensions: z
       .string()
@@ -34,6 +35,7 @@ export const existingArtworkFormSchema = z
       .string()
       .min(1, { message: "Description is required" })
       .max(5000, { message: "Description is too long (maximum 5,000 characters)" }),
+    location: z.string().nullable().optional(),
     price: priceSchema,
     dimensions: z
       .string()

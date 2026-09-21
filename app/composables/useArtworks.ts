@@ -34,6 +34,7 @@ export function useArtworks() {
     price: string,
     artist: string,
     artwork_note: string,
+    location: string = "",
   ) => {
     // Validation
     if (
@@ -58,6 +59,7 @@ export function useArtworks() {
     formData.append("dimensions", dimensions);
     formData.append("image", image);
     formData.append("artist", artist);
+    formData.append("location", location);
 
     if (artwork_note) {
       formData.append("artwork_note", artwork_note);

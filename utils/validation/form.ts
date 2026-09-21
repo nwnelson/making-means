@@ -1,7 +1,5 @@
-import { z } from "zod";
 import type { MultiPartData } from "h3";
 import type { NewArtworkData } from "#types/artworks/artworks";
-import type { UploadInput } from "~~/server/services/storage.service";
 import {
   artworkFormSchema,
   existingArtworkFormSchema,
@@ -32,6 +30,8 @@ export const validateExistingArtworkForm = async (form: MultiPartData[]) => {
   const imageField = form.find((field) => field.name === "image");
   const dimensions =
     form.find((field) => field.name === "dimensions")?.data?.toString() || "";
+  const location =
+    form.find((field) => field.name === "location")?.data?.toString().trim() || null;
 
   // Convert to File object
   let image: File | undefined = undefined;
@@ -51,6 +51,7 @@ export const validateExistingArtworkForm = async (form: MultiPartData[]) => {
     description,
     price,
     dimensions,
+    location,
     image,
   };
   const parsed = existingArtworkFormSchema.safeParse(formData);

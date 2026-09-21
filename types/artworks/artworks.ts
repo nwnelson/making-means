@@ -1,6 +1,7 @@
 export type ArtworkData = {
   title: string;
   description: string;
+  location?: string | null;
   price: string;
   dimensions: string;
   artist: string;
@@ -13,6 +14,7 @@ export type Artwork = {
   id: string;
   title: string;
   description: string;
+  location?: string | null;
   image_path: string;
   sold: boolean;
   price: number;

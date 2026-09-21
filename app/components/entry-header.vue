@@ -60,7 +60,7 @@ const closeMenu = () => {
 <style scoped>
 .entry-header {
   position: relative;
-  z-index: 2;
+  z-index: 100;
   display: flex;
   align-items: center;
   gap: 2.25rem;

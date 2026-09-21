@@ -7,6 +7,9 @@ export const extractNewArtworkFormData = (form: MultiPartData[]) => {
     description:
       form.find((field) => field.name === "description")?.data?.toString() ||
       "",
+    location:
+      form.find((field) => field.name === "location")?.data?.toString().trim() ||
+      null,
     price: form.find((field) => field.name === "price")?.data?.toString() || "",
     dimensions:
       form.find((field) => field.name === "dimensions")?.data?.toString() || "",

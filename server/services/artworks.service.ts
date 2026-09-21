@@ -46,6 +46,7 @@ async function addArtwork(
       .insert({
         title: artwork.title,
         description: artwork.description,
+        location: artwork.location?.trim() || null,
         price: parsedPrice,
         dimensions: artwork.dimensions,
         artist_id: artwork.artist,
@@ -121,6 +122,7 @@ async function updateArtwork(
       .update({
         title: artwork.title,
         description: artwork.description,
+        location: artwork.location?.trim() || null,
         price: parsedPrice,
         dimensions: artwork.dimensions,
         artist_id: artwork.artist,
