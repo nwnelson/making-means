@@ -7,6 +7,12 @@ const artistId = computed(() => route.params.id as string);
 const { getArtist } = useArtists();
 const { data: artist, pending, error } = await getArtist(artistId.value);
 
+const { getExhibitionArtworks } = useArtworks();
+const { data: artworks } = await getExhibitionArtworks();
+const artistArtwork = computed(() =>
+  artworks.value?.find((artwork) => artwork.artist?.id === artistId.value),
+);
+
 const firstName = computed(() => artist.value?.name.trim().split(/\s+/)[0] || "Artist");
 
 useHead({
@@ -51,7 +57,11 @@ useSeoMeta({
           </div>
         </div>
 
-        <NuxtLink to="/exhibition-sales" class="artist-artwork-link">
+        <NuxtLink
+          v-if="artistArtwork"
+          :to="`/artworks/${artistArtwork.id}`"
+          class="artist-artwork-link"
+        >
           View {{ firstName }}&rsquo;s Artwork
         </NuxtLink>
       </div>

@@ -9,7 +9,7 @@ import InstagramIcon from "~/components/icons/InstagramIcon.vue";
       <a href="mailto:makingmeans@gmail.com">makingmeans@gmail.com</a>
     </div>
     <div>
-      <h2>Developed by:</h2>
+      <h2>Website Developed by:</h2>
       <p>Nathan Nelson</p>
     </div>
     <a

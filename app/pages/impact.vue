@@ -40,7 +40,7 @@ useSeoMeta({
           <p>
             100% of artwork sale proceeds from the exhibition will support an
             art workshop and exhibition in Bulawayo, hosted
-            by The Oasis Bulawayo on November 20, 2026. These funds will make
+            by The Oasis Bulawayo on November 27, 2026. These funds will make
             possible: materials, facilitators, technical support, and refreshments. The artworks
             help make the event possible.
           </p>
@@ -65,7 +65,7 @@ useSeoMeta({
       <section class="impact-next">
         <h2>What Happens Next?</h2>
         <p>
-          Check back after November 20 to see the event in action, how the funds
+          Check back after November 27 to see the event in action, how the funds
           from the exhibition were used, and the impact of the collaboration on
           young creatives in Bulawayo.
         </p>
