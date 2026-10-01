@@ -1,5 +1,5 @@
 import type { ArtworkRow } from "~~/types/supabase/tables";
-import type { ExhibitionArtwork } from "~~/types/artworks/artworks";
+import type { ExhibitionArtwork, NewArtworkData } from "~~/types/artworks/artworks";
 // import { useLoadingStore } from "~/stores/loading";
 
 const { startLoading, stopLoading } = useLoading();
@@ -26,24 +26,15 @@ export function useArtworks() {
     });
   };
 
-  const addArtwork = async (
-    title: string,
-    description: string,
-    image: File | null,
-    dimensions: string,
-    price: string,
-    artist: string,
-    artwork_note: string,
-    location: string = "",
-  ) => {
+  const addArtwork = async (artwork: NewArtworkData, image: File | null) => {
     // Validation
     if (
-      !title ||
-      !description ||
+      !artwork.title ||
+      !artwork.description ||
       !image ||
-      !price ||
-      !dimensions ||
-      !artist
+      !artwork.price ||
+      !artwork.dimensions ||
+      !artwork.artist
     ) {
       return {
         success: false,
@@ -53,16 +44,16 @@ export function useArtworks() {
 
     // Create FormData
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("price", price);
-    formData.append("dimensions", dimensions);
+    formData.append("title", artwork.title);
+    formData.append("description", artwork.description);
+    formData.append("price", artwork.price);
+    formData.append("dimensions", artwork.dimensions);
     formData.append("image", image);
-    formData.append("artist", artist);
-    formData.append("location", location);
+    formData.append("artist", artwork.artist);
+    formData.append("location", artwork.location || "");
 
-    if (artwork_note) {
-      formData.append("artwork_note", artwork_note);
+    if (artwork.artwork_note) {
+      formData.append("artwork_note", artwork.artwork_note);
     }
 
     try {

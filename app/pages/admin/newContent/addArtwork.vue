@@ -59,16 +59,7 @@ const onFileChange = (event: Event) => {
 
 const submit = async () => {
   // To Do: send ArtworkData object instead of fields
-  const response = await addArtwork(
-    artwork.title,
-    artwork.description,
-    image.value,
-    artwork.dimensions,
-    artwork.price,
-    artwork.artist,
-    artwork.artwork_note || "",
-    artwork.location || "",
-  );
+  const response = await addArtwork(artwork, image.value);
 
   if (!response.success) {
     toast.error(response.message);

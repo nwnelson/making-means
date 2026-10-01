@@ -1,15 +1,14 @@
 import { stripe } from "@server/utils/stripe/stripe";
-import { Stripe } from "stripe";
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import type { Stripe } from "stripe";
+import { createClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import {
   createOrder,
   updateOrderStatusById,
   getOrderByPaymentIntentId,
 } from "@server/services/orders.service";
-import {
-  ShippingDetail,
-  validateShippingAddress,
-} from "@utils/validation/stripe";
+import { validateShippingAddress } from "@utils/validation/stripe";
+import type { ShippingDetail } from "@utils/validation/stripe";
 import { getStripeId } from "@utils/stripe/stripe";
 import type { Database } from "#types/supabase/database";
 
@@ -79,12 +78,14 @@ async function processEvent(
       const session = stripeEvent.data.object as Stripe.Checkout.Session;
 
       const artworkId = session.metadata?.artworkId;
-      const name = session?.customer_details?.name;
+      const shippingDetails = session.collected_information?.shipping_details;
+      const name = shippingDetails?.name || session?.customer_details?.name;
       const userEmail = session.customer_details?.email;
-      const shipping = session.customer_details?.address;
+      const shipping = shippingDetails?.address || session.customer_details?.address;
       const price = session.metadata?.price;
       const paymentIntentId = session.payment_intent as string;
       const shippingCost = session.shipping_cost?.amount_total;
+      const quoteCountry = session.metadata?.shippingQuoteCountry;
 
       const checkoutSessionId = session.id;
       // const chargeId = paymentIntentId.charges.data[0].id
@@ -102,10 +103,13 @@ async function processEvent(
         !price ||
         !paymentIntentId ||
         !checkoutSessionId ||
-        !shippingCost
+        shippingCost == null
       ) {
         throw new Error("Missing required parameters!");
       }
+
+      const shippingAddressMismatch = !!quoteCountry &&
+        shipping?.country?.toUpperCase() !== quoteCountry.toUpperCase();
 
       try {
         await createOrder(
@@ -118,11 +122,12 @@ async function processEvent(
           validatedShippingAddress,
           paymentIntentId,
           checkoutSessionId,
+          shippingAddressMismatch,
         );
         await markWebhookEventProcessed(supabase, stripeEvent.id);
       } catch (err) {
         console.log("Something went wrong: " + err);
-        throw new Error("Something went wrong!");
+        throw new Error("Something went wrong!", { cause: err });
       }
       break;
     }
@@ -187,7 +192,7 @@ export default defineEventHandler(async (event) => {
     );
   } catch (err) {
     console.log("An error occured reading the event: " + err);
-    throw new Error("Failed to retrieve event!");
+    throw new Error("Failed to retrieve event!", { cause: err });
   }
 
   const supabase = createClient(

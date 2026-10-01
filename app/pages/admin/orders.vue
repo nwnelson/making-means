@@ -93,7 +93,10 @@ function viewOrder(id: string) {
           <tr v-for="order in orders" :key="order.id">
             <td data-label="Buyer"><strong>{{ order.buyer_name }}</strong></td>
             <td data-label="Amount">${{ order.amount }}</td>
-            <td data-label="Status"><AdminStatusBadge :status="order.status" /></td>
+            <td data-label="Status">
+              <AdminStatusBadge :status="order.status" />
+              <span v-if="order.shipping_address_mismatch" class="address-review">Verify shipping address</span>
+            </td>
             <td data-label="Address">{{ order.address_line_1 }}</td>
             <td data-label="Created">{{ formatDateShort(order.created_at) ?? "" }}</td>
             <td data-label="Actions"><div class="admin-table__actions"><Button size="sm" @click.stop="changeOrderStatus(order.id)">Change status</Button><Button size="sm" variant="secondary" @click.stop="viewOrder(order.id)">View details</Button></div></td>
@@ -103,3 +106,7 @@ function viewOrder(id: string) {
     </div>
   </div>
 </template>
+
+<style scoped>
+.address-review { display: block; margin-top: 0.35rem; color: #9a4d00; font-size: 0.75rem; font-weight: 700; }
+</style>

@@ -1,4 +1,4 @@
-import { SupabaseClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "#types/supabase/database";
 import type { ArtworkData, NewArtworkData } from "#types/artworks/artworks";
 import type { UploadInput } from "./storage.service";
@@ -117,7 +117,7 @@ async function updateArtwork(
     throw new Error("Invalid price value!");
   }
   try {
-    await supabase
+    const { error } = await supabase
       .from("artworks")
       .update({
         title: artwork.title,
@@ -129,6 +129,8 @@ async function updateArtwork(
         artwork_note: artwork.artwork_note || "",
       })
       .eq("id", id);
+
+    if (error) throw error;
   } catch (err) {
     console.log("failed to update artist:", err);
     throw createError({

@@ -55,10 +55,13 @@ export default defineNuxtConfig({
     supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
     stripeSecretKey: process.env.STRIPE_SECRET_KEY,
     stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+    resendApiKey: process.env.RESEND_API_KEY,
 
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
       stripeDomesticShippingId: process.env.STRIPE_SHIPPING_ID_DOMESTIC,
+      resendFromEmail: process.env.NUXT_PUBLIC_RESEND_FROM_EMAIL,
+      adminEmail: process.env.NUXT_PUBLIC_ADMIN_EMAIL,
     },
   },
   alias: {

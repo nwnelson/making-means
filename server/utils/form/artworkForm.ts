@@ -1,5 +1,5 @@
-import { NewArtworkData } from "~~/types/artworks/artworks";
-import { MultiPartData } from "h3";
+import type { NewArtworkData } from "~~/types/artworks/artworks";
+import type { MultiPartData } from "h3";
 
 export const extractNewArtworkFormData = (form: MultiPartData[]) => {
   const artworkForm: NewArtworkData = {

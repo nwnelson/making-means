@@ -13,7 +13,7 @@ export async function getOrders(supabase: SupabaseClient<Database>) {
   const { data, error } = await supabase
     .from("orders")
     .select(
-      "id, artwork_id, amount, status, created_at, updated_at, address_line_1, buyer_email, buyer_name, shipping_cost",
+      "id, artwork_id, amount, status, created_at, updated_at, address_line_1, buyer_email, buyer_name, shipping_cost, shipping_address_mismatch",
     );
 
   if (error || !data) {
@@ -53,6 +53,7 @@ export async function createOrder(
   address: ShippingDetail,
   paymentIntentId: string,
   checkoutSessionId: string,
+  shippingAddressMismatch = false,
 ) {
   if (
     !supabase ||
@@ -113,6 +114,7 @@ export async function createOrder(
     country: shippingCountry,
     amount: numericPrice,
     shipping_cost: shippingCost,
+    shipping_address_mismatch: shippingAddressMismatch,
     state: shippingState,
     postal_code: zip,
     stripe_payment_intent_id: paymentIntentId,

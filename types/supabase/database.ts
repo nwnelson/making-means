@@ -220,6 +220,7 @@ export type Database = {
           id: string
           postal_code: string | null
           shipping_cost: number
+          shipping_address_mismatch: boolean
           state: string | null
           status: string
           stripe_checkout_session_id: string | null
@@ -239,6 +240,7 @@ export type Database = {
           id?: string
           postal_code?: string | null
           shipping_cost: number
+          shipping_address_mismatch?: boolean
           state?: string | null
           status?: string
           stripe_checkout_session_id?: string | null
@@ -258,6 +260,7 @@ export type Database = {
           id?: string
           postal_code?: string | null
           shipping_cost?: number
+          shipping_address_mismatch?: boolean
           state?: string | null
           status?: string
           stripe_checkout_session_id?: string | null
@@ -265,6 +268,35 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      shipping_rates: {
+        Row: {
+          artwork_id: string
+          amount_cents: number | null
+          continent: string
+          updated_at: string
+        }
+        Insert: {
+          artwork_id: string
+          amount_cents?: number | null
+          continent: string
+          updated_at?: string
+        }
+        Update: {
+          artwork_id?: string
+          amount_cents?: number | null
+          continent?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipping_rates_artwork_id_fkey"
+            columns: ["artwork_id"]
+            isOneToOne: false
+            referencedRelation: "artworks"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       webhook_event: {
         Row: {

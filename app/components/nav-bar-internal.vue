@@ -62,6 +62,7 @@ const logout = async () => {
         <NuxtLink to="/admin/dashboard" class="admin-nav-link" @click="closeNav">Dashboard</NuxtLink>
         <NuxtLink to="/admin/orders" class="admin-nav-link" @click="closeNav">Orders</NuxtLink>
         <NuxtLink to="/admin/artworks" class="admin-nav-link" @click="closeNav">Artworks</NuxtLink>
+        <NuxtLink to="/admin/shipping-rates" class="admin-nav-link" @click="closeNav">Shipping rates</NuxtLink>
         <NuxtLink to="/admin/artists/artists" class="admin-nav-link" @click="closeNav">Artists</NuxtLink>
         <NuxtLink to="/admin/collections/collections" class="admin-nav-link" @click="closeNav">Collections</NuxtLink>
         <NuxtLink to="/admin/coverImages" class="admin-nav-link" @click="closeNav">Cover images</NuxtLink>

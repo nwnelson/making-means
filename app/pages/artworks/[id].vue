@@ -104,6 +104,67 @@ const closeLightBox = () => {
   lightboxVisible.value = false;
 };
 
+const purchaseInfoDialog = ref<HTMLDialogElement | null>(null);
+const inquiryStep = ref<"intro" | "form" | "success">("intro");
+const inquirySubmitting = ref(false);
+const inquiryError = ref("");
+const inquiryForm = reactive({
+  name: "",
+  email: "",
+  country: "",
+  cityPostalCode: "",
+  message: "I'd like to purchase this artwork. Please provide shipping and payment details.",
+  website: "",
+  requestId: "",
+});
+
+function resetInquiryForm() {
+  inquiryForm.name = "";
+  inquiryForm.email = "";
+  inquiryForm.country = "";
+  inquiryForm.cityPostalCode = "";
+  inquiryForm.message = "I'd like to purchase this artwork. Please provide shipping and payment details.";
+  inquiryForm.website = "";
+  inquiryForm.requestId = crypto.randomUUID();
+  inquiryError.value = "";
+  inquiryStep.value = "intro";
+}
+
+function openPurchaseInfo() {
+  resetInquiryForm();
+  purchaseInfoDialog.value?.showModal();
+}
+
+function closePurchaseInfo() {
+  purchaseInfoDialog.value?.close();
+}
+
+async function submitInquiry() {
+  if (!artwork.value || inquirySubmitting.value || inquiryStep.value !== "form") return;
+  inquirySubmitting.value = true;
+  inquiryError.value = "";
+  try {
+    await $fetch(`/api/artworks/${artwork.value.id}/inquiry`, {
+      method: "POST",
+      body: {
+        name: inquiryForm.name,
+        email: inquiryForm.email,
+        country: inquiryForm.country,
+        cityPostalCode: inquiryForm.cityPostalCode,
+        message: inquiryForm.message,
+        website: inquiryForm.website,
+        requestId: inquiryForm.requestId,
+      },
+    });
+    inquiryStep.value = "success";
+  } catch (error) {
+    const requestError = error as { data?: { statusMessage?: string }; statusMessage?: string };
+    inquiryError.value = requestError.data?.statusMessage || requestError.statusMessage || "Your request could not be sent. Please try again.";
+  } finally {
+    inquirySubmitting.value = false;
+  }
+}
+
 useHead({
   bodyAttrs: {
     class: "artwork-detail-route",
@@ -200,10 +261,92 @@ useHead({
           <p class="shipping-note">(Shipping calculated separately)</p>
         </div>
 
-        <div class="artwork-sales-notice">
-          <p class="sales-notice-title">NOT YET AVAILABLE FOR PURCHASE</p>
-          <p>Sales begin <time datetime="2026-10-01">October 1, 2026</time>.</p>
-        </div>
+        <button
+          v-if="!artwork.sold"
+          type="button"
+          class="artwork-buy-button"
+          @click="openPurchaseInfo"
+        >
+          Request To Purchase
+        </button>
+        <p v-else class="artwork-availability">
+          Sold
+        </p>
+
+        <dialog
+          ref="purchaseInfoDialog"
+          class="purchase-info-dialog"
+          aria-labelledby="purchase-info-title"
+        >
+          <button
+            type="button"
+            class="purchase-info-close"
+            aria-label="Close purchase information"
+            @click="closePurchaseInfo"
+          >
+            ×
+          </button>
+          <template v-if="inquiryStep === 'intro'">
+            <h2 id="purchase-info-title">Interested in acquiring this artwork?</h2>
+            <p>
+              Because each work is individually handled and shipped from the artist's location,
+              we arrange shipping and payment directly with the collector.
+            </p>
+            <p>
+              Submit an inquiry below and we'll confirm the artwork's availability, shipping cost
+              to your location, and payment options.
+            </p>
+            <button type="button" class="purchase-info-continue" @click="inquiryStep = 'form'">
+              Inquiry Form
+            </button>
+          </template>
+
+          <template v-else-if="inquiryStep === 'form'">
+            <h2 id="purchase-info-title">Request to Purchase</h2>
+            <p class="inquiry-artwork-line"><strong>Artwork:</strong> {{ artwork.title }}</p>
+            <p class="inquiry-artwork-line"><strong>Artist:</strong> {{ artwork.artist?.name || 'Artist' }}</p>
+
+            <form class="inquiry-form" @submit.prevent="submitInquiry">
+              <label>
+                Name
+                <input v-model="inquiryForm.name" name="name" autocomplete="name" maxlength="120" required>
+              </label>
+              <label>
+                Email
+                <input v-model="inquiryForm.email" name="email" type="email" autocomplete="email" maxlength="254" required>
+              </label>
+              <label>
+                Country
+                <input v-model="inquiryForm.country" name="country" autocomplete="country-name" maxlength="100" required>
+              </label>
+              <label>
+                City / Postal Code
+                <input v-model="inquiryForm.cityPostalCode" name="cityPostalCode" autocomplete="postal-code" maxlength="120" required>
+              </label>
+              <label>
+                Message
+                <textarea v-model="inquiryForm.message" name="message" rows="4" maxlength="2000" required />
+              </label>
+              <label class="inquiry-honeypot" aria-hidden="true">
+                Website
+                <input v-model="inquiryForm.website" name="website" tabindex="-1" autocomplete="off">
+              </label>
+              <p v-if="inquiryError" class="inquiry-error" role="alert">{{ inquiryError }}</p>
+              <button type="submit" class="purchase-info-continue" :disabled="inquirySubmitting">
+                {{ inquirySubmitting ? 'Sending…' : 'SEND REQUEST' }}
+              </button>
+            </form>
+            <p class="inquiry-response-note">
+              We'll respond with availability, shipping costs, and next steps for completing your purchase.
+            </p>
+          </template>
+
+          <template v-else>
+            <h2 id="purchase-info-title">Request sent</h2>
+            <p>Thank you for your inquiry. We'll respond with availability, shipping costs, and next steps for completing your purchase.</p>
+            <button type="button" class="purchase-info-continue" @click="closePurchaseInfo">Close</button>
+          </template>
+        </dialog>
       </section>
     </div>
 
@@ -424,22 +567,116 @@ useHead({
   font-style: italic;
 }
 
-.artwork-sales-notice {
+.artwork-buy-button {
+  align-self: flex-start;
   margin-top: clamp(1rem, 1.75vw, 1.75rem);
-  padding: 0.65rem clamp(1.25rem, 2vw, 2rem);
+  padding: 0.85rem 3rem;
+  border: 0;
   border-radius: 2.5rem;
   background: var(--artwork-gold);
   color: var(--artwork-green);
+  font: inherit;
   font-size: clamp(1rem, 1.35vw, 1.4rem);
-  line-height: 1.25;
-}
-
-.artwork-sales-notice p {
-  margin: 0;
-}
-
-.sales-notice-title {
   font-weight: 900;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.artwork-buy-button:hover {
+  filter: brightness(1.08);
+}
+
+.artwork-buy-button:focus-visible {
+  outline: 2px solid var(--artwork-white);
+  outline-offset: 0.35rem;
+}
+
+.artwork-availability {
+  margin-top: 1.75rem;
+  color: var(--artwork-gold);
+  font-weight: 900;
+}
+
+.purchase-info-dialog {
+  position: fixed;
+  width: min(100% - 2rem, 42rem);
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 2px solid var(--artwork-gold);
+  border-radius: 1rem;
+  background: var(--artwork-green);
+  color: var(--artwork-white);
+  box-shadow: 0 1rem 3rem rgb(0 0 0 / 35%);
+}
+
+.purchase-info-dialog::backdrop {
+  background: rgb(0 0 0 / 72%);
+}
+
+.purchase-info-close {
+  display: block;
+  margin: -1rem -1rem 0.5rem auto;
+  border: 0;
+  background: transparent;
+  color: var(--artwork-white);
+  font: inherit;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.purchase-info-dialog h2 {
+  margin: 0 0 1rem;
+  color: var(--artwork-gold);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  line-height: 1.2;
+}
+
+.purchase-info-dialog p {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.55;
+}
+
+.purchase-info-continue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.75rem;
+  padding: 0.9rem 1.5rem;
+  border-radius: 2.5rem;
+  background: var(--artwork-gold);
+  color: var(--artwork-green);
+  font-size: 1.1rem;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+}
+
+.purchase-info-continue:disabled { opacity: 0.65; cursor: wait; }
+.inquiry-artwork-line { margin-bottom: 0.35rem !important; }
+.inquiry-form { display: grid; gap: 0.9rem; margin-top: 1rem; }
+.inquiry-form label { display: grid; gap: 0.35rem; font-weight: 700; }
+.inquiry-form input,
+.inquiry-form textarea {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgb(255 255 255 / 45%);
+  border-radius: 0.4rem;
+  background: var(--artwork-white);
+  color: var(--artwork-green);
+  font: inherit;
+}
+.inquiry-form textarea { resize: vertical; }
+.inquiry-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.inquiry-error { color: #ffd0c8; }
+.inquiry-response-note { margin-top: 1rem !important; font-size: 0.95rem !important; }
+
+.purchase-info-dialog button:focus-visible,
+.purchase-info-dialog a:focus-visible {
+  outline: 2px solid var(--artwork-white);
+  outline-offset: 0.3rem;
 }
 
 .artwork-message {
