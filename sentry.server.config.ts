@@ -7,6 +7,8 @@ Sentry.init({
   // for finer control
   tracesSampleRate: 1.0,
 
+  integrations: [Sentry.consoleLoggingIntegration()],
+
   dataCollection: {
     // To disable sending user data and HTTP bodies, uncomment the lines below. For more info visit:
     // https://docs.sentry.io/platforms/javascript/guides/nuxt/configuration/options/#dataCollection

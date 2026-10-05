@@ -17,8 +17,10 @@ Sentry.init({
   // sessions when an error occurs.
   replaysOnErrorSampleRate: 1.0,
   
-  // If you don't want to use Session Replay, just remove the line below:
-  integrations: [Sentry.replayIntegration()],
+  integrations: [
+    Sentry.replayIntegration(),
+    Sentry.consoleLoggingIntegration(),
+  ],
 
   dataCollection: {
     // To disable sending user data and HTTP bodies, uncomment the lines below. For more info visit:
