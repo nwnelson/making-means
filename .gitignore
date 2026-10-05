@@ -30,3 +30,6 @@ REVIEW.md
 
 # Cursor config
 .cursor
+
+# Sentry Config File
+.env.sentry-build-plugin

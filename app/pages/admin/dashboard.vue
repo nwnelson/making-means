@@ -78,7 +78,7 @@ watch(isLoading, (loading) => {
           <div class="admin-section-heading"><h2>Recent orders</h2><NuxtLink to="/admin/orders" class="admin-text-link">View all</NuxtLink></div>
           <ul v-if="orders?.length" class="admin-list">
             <li v-for="order in orders.slice(0, 3)" :key="order.id" class="admin-list-row">
-              <div class="admin-list-row__content"><p class="admin-list-row__title">{{ order.buyer_name }}</p><p class="admin-list-row__meta">{{ formatFunds(order.amount) }}</p></div>
+              <div class="admin-list-row__content"><p class="admin-list-row__title">{{ order.buyer_name }}</p><p class="admin-list-row__meta">{{ formatFunds(order.amount ?? 0) }}</p></div>
               <AdminStatusBadge :status="order.status" />
             </li>
           </ul>

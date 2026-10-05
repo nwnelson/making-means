@@ -2,6 +2,7 @@ import { fileURLToPath } from "url";
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
+
   app: {
     head: {
       title: "Making Means",
@@ -30,19 +31,23 @@ export default defineNuxtConfig({
       ],
     },
   },
+
   css: ["~/assets/styles/main.css", "~/assets/styles/admin.css"],
-  modules: ["@nuxtjs/supabase", "nuxt-lottie", "@nuxt/image", "nuxt-svgo", "@nuxt/eslint"],
+  modules: ["@nuxtjs/supabase", "nuxt-lottie", "@nuxt/image", "nuxt-svgo", "@nuxt/eslint", "@sentry/nuxt/module"],
+
   image: {
     domains: process.env.SUPABASE_DOMAIN
       ? [process.env.SUPABASE_DOMAIN]
       : [],
   },
+
   lottie: {
     componentName: "Lottie", // Optional: Customize the component name
     lottieFolder: "/assets/lottie", // Optional: Customize the Lottie folder path
     autoFolderCreation: true, // Optional: Auto create lottie folder (default: true)
     enableLogs: true, // Optional: Enable console logs from module (default: true)
   },
+
   supabase: {
     url: process.env.SUPABASE_URL,
     key: process.env.SUPABASE_KEY,
@@ -64,9 +69,19 @@ export default defineNuxtConfig({
       adminEmail: process.env.NUXT_PUBLIC_ADMIN_EMAIL,
     },
   },
+
   alias: {
     "@server": fileURLToPath(new URL("./server", import.meta.url)),
     "#types": fileURLToPath(new URL("./types", import.meta.url)),
     "@utils": fileURLToPath(new URL("./utils", import.meta.url)),
+  },
+
+  sentry: {
+    org: "making-means",
+    project: "javascript-nuxt",
+  },
+
+  sourcemap: {
+    client: "hidden",
   },
 });

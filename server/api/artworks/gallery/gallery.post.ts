@@ -1,6 +1,6 @@
 import { addGalleryImages } from "@server/services/artworks.service";
 import { serverSupabaseClient } from "#supabase/server";
-import { UploadInput } from "@server/services/storage.service";
+import type { UploadInput } from "@server/services/storage.service";
 import { validateImageFile } from "~~/utils/validation/image";
 import { validateUUID } from "@utils/validation/other";
 

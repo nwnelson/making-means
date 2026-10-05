@@ -27,13 +27,12 @@ const {
 useSeoMeta({
   title: () => collectionDetails.value?.collection_name || "Collection",
   description: () =>
-    collectionDetails.value?.description ||
+    collectionDetails.value?.desc ||
     `Explore artworks from the ${collectionDetails.value?.collection_name || "featured"} collection on Making Means.`,
   ogTitle: () => collectionDetails.value?.collection_name || "Collection",
   ogDescription: () =>
-    collectionDetails.value?.description ||
+    collectionDetails.value?.desc ||
     `Explore artworks from the ${collectionDetails.value?.collection_name || "featured"} collection on Making Means.`,
-  ogImage: () => collectionDetails.value?.image_path || undefined,
 });
 
 const availableArtworks = computed(

@@ -2,9 +2,9 @@ import { addArtwork } from "@server/services/artworks.service";
 import { validateNewArtworkForm } from "@utils/validation/form";
 import { serverSupabaseClient } from "#supabase/server";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "#types/supabase/database";
+import type { Database } from "#types/supabase/database";
 import { requireAdmin } from "@server/utils/auth/requireAdmin";
-import { UploadInput } from "~~/server/services/storage.service";
+import type { UploadInput } from "~~/server/services/storage.service";
 import type { NewArtworkData } from "#types/artworks/artworks";
 import { extractNewArtworkFormData } from "~~/server/utils/form/artworkForm";
 import { getImageValidationMessage } from "~~/utils/validation/image";
@@ -45,7 +45,9 @@ export default defineEventHandler(async (event) => {
       statusCode: 400,
       statusMessage: "Bad Request",
       data: {
-        message: validatedForm.error.issues[0]?.message || "Please check the artwork details.",
+        message: ("error" in validatedForm
+          ? validatedForm.error?.issues[0]?.message
+          : validatedForm.message) || "Please check the artwork details.",
       },
     });
   }

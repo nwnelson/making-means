@@ -61,9 +61,10 @@ export default defineEventHandler(async (event) => {
   const country = parsed.data.country;
   const cityPostalCode = parsed.data.cityPostalCode;
   const message = parsed.data.message;
+  const artworkTitle = artwork.title || "Untitled artwork";
   const artistName = artwork.artist?.name || "Unknown artist";
   const artworkUrl = `https://makingmeans.com/artworks/${encodeURIComponent(artwork.id)}`;
-  const subjectTitle = artwork.title.replace(/[\r\n]+/g, " ").trim().slice(0, 120);
+  const subjectTitle = artworkTitle.replace(/[\r\n]+/g, " ").trim().slice(0, 120);
   const resend = new Resend(config.resendApiKey);
 
   const { error } = await resend.emails.send(
@@ -75,7 +76,7 @@ export default defineEventHandler(async (event) => {
       text: [
         "New artwork purchase inquiry",
         "",
-        `Artwork: ${artwork.title}`,
+        `Artwork: ${artworkTitle}`,
         `Artist: ${artistName}`,
         `Artwork page: ${artworkUrl}`,
         "",
@@ -89,7 +90,7 @@ export default defineEventHandler(async (event) => {
       ].join("\n"),
       html: `
         <h1>New artwork purchase inquiry</h1>
-        <p><strong>Artwork:</strong> ${escapeHtml(artwork.title)}</p>
+        <p><strong>Artwork:</strong> ${escapeHtml(artworkTitle)}</p>
         <p><strong>Artist:</strong> ${escapeHtml(artistName)}</p>
         <p><strong>Artwork page:</strong> <a href="${escapeHtml(artworkUrl)}">${escapeHtml(artworkUrl)}</a></p>
         <hr>

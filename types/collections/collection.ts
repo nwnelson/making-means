@@ -10,5 +10,5 @@ export type CollectionCard = {
 
 export type CollectionDetails = {
   collection_name: string;
-  desc: string;
+  desc: string | null;
 };

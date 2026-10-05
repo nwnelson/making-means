@@ -1,7 +1,7 @@
 import { getCollectionDetails } from "~~/server/services/collections.service";
 import { serverSupabaseClient } from "#supabase/server";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "#types/supabase/database";
+import type { Database } from "#types/supabase/database";
 
 export default defineEventHandler(async (event) => {
   console.log("retrieving artworks!");

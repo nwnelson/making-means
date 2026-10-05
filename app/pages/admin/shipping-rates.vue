@@ -30,7 +30,8 @@ function clearRates() {
 }
 
 watch(artworks, (items) => {
-  if (!selectedArtworkId.value && items?.length) selectedArtworkId.value = items[0].id;
+  const firstArtwork = items?.[0];
+  if (!selectedArtworkId.value && firstArtwork) selectedArtworkId.value = firstArtwork.id;
 }, { immediate: true });
 
 watch(selectedArtworkId, async (artworkId) => {

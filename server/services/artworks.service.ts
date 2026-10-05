@@ -67,7 +67,11 @@ async function addArtwork(
       });
     }
 
-    const id = data[0].id;
+    const insertedArtwork = data?.[0];
+    if (!insertedArtwork) {
+      throw new Error("Artwork insert returned no record.");
+    }
+    const id = insertedArtwork.id;
 
     await addGalleryImage(supabase, id, image);
 
@@ -552,7 +556,9 @@ async function getArtworkForCollection(
     .order("created_at", { ascending: false })
     .limit(1);
 
-  if (error || !artworks || artworks.length === 0) {
+  const artwork = artworks?.[0];
+
+  if (error || !artwork) {
     throw createError({
       statusCode: 500,
       statusMessage: "Internal Error",
@@ -562,8 +568,6 @@ async function getArtworkForCollection(
       },
     });
   }
-
-  const artwork = artworks[0];
 
   // Get public URL for the image
   if (artwork.image_path) {

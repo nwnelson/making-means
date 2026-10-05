@@ -1,4 +1,4 @@
-import { requireAdmin } from "#imports";
+import { requireAdmin } from "@server/utils/auth/requireAdmin";
 import { serverSupabaseClient } from "#supabase/server";
 import { createCollection } from "@server/services/collections.service";
 import { validateCollectionName } from "~~/utils/validation/other";

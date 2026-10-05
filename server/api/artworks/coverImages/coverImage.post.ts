@@ -1,7 +1,7 @@
 import { validateImageFile } from "~~/utils/validation/image";
 import { addCoverImage } from "@server/services/artworks.service";
 import { serverSupabaseClient } from "#supabase/server";
-import { UploadInput } from "@server/services/storage.service";
+import type { UploadInput } from "@server/services/storage.service";
 
 export default defineEventHandler(async (event) => {
   // 1.) Require authentication

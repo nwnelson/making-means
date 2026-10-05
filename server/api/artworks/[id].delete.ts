@@ -1,4 +1,4 @@
-import { requireAdmin } from "#imports";
+import { requireAdmin } from "@server/utils/auth/requireAdmin";
 import { deleteArtwork } from "@server/services/artworks.service";
 import { serverSupabaseClient } from "#supabase/server";
 
