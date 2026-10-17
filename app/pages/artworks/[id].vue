@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import * as Sentry from "@sentry/nuxt";
+import { inquiryError as telemetryError } from "~~/shared/utils/inquiry-telemetry";
 import type { ArtworkRow, GalleryRow } from "~~/types/supabase/tables";
 import VueEasyLightbox from "vue-easy-lightbox";
 
@@ -143,9 +145,18 @@ async function submitInquiry() {
   if (!artwork.value || inquirySubmitting.value || inquiryStep.value !== "form") return;
   inquirySubmitting.value = true;
   inquiryError.value = "";
+  const startedAt = Date.now();
+  const context = {
+    feature: "artwork_inquiry",
+    side: "frontend",
+    requestId: inquiryForm.requestId,
+    artworkId: artwork.value.id,
+  };
+  Sentry.logger.info("Inquiry submission started", context);
   try {
     await $fetch(`/api/artworks/${artwork.value.id}/inquiry`, {
       method: "POST",
+      headers: { "X-Inquiry-Request-Id": inquiryForm.requestId },
       body: {
         name: inquiryForm.name,
         email: inquiryForm.email,
@@ -156,9 +167,24 @@ async function submitInquiry() {
         requestId: inquiryForm.requestId,
       },
     });
+    Sentry.logger.info("Inquiry submission succeeded", { ...context, durationMs: Date.now() - startedAt });
     inquiryStep.value = "success";
   } catch (error) {
-    const requestError = error as { data?: { statusMessage?: string }; statusMessage?: string };
+    const requestError = error as { data?: { statusMessage?: string }; statusMessage?: string; statusCode?: number; status?: number };
+    const status = requestError.statusCode || requestError.status || 0;
+    const details = { ...context, status, durationMs: Date.now() - startedAt };
+    if (status >= 400 && status < 500) {
+      Sentry.logger.warn("Inquiry submission rejected", details);
+    } else {
+      Sentry.logger.error("Inquiry submission failed", details);
+      // Server failures are captured by the API; capture browser/network failures here.
+      if (status < 500) {
+        Sentry.captureException(telemetryError("Inquiry submission failed before a server response", error), {
+          tags: { feature: context.feature, side: context.side },
+          contexts: { inquiry: details },
+        });
+      }
+    }
     inquiryError.value = requestError.data?.statusMessage || requestError.statusMessage || "Your request could not be sent. Please try again.";
   } finally {
     inquirySubmitting.value = false;
