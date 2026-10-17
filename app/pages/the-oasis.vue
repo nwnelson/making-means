@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import oasisOpenCallDesign from "~/assets/design/theOasisPage2.png";
 import oasisExterior from "~/assets/images/The Oasis space 3.jpg";
 import oasisInterior from "~/assets/images/Oasis space 2.jpg";
 
@@ -77,6 +78,49 @@ useSeoMeta({
       </div>
     </section>
 
+    <section id="making-means-x-the-oasis" class="oasis-open-call" aria-labelledby="open-call-title">
+      <header class="open-call-heading">
+        <h2 id="open-call-title">Making Means X The Oasis</h2>
+        <h3>Open Call: Bulawayo Artists</h3>
+      </header>
+
+      <div class="open-call-content">
+        <div class="open-call-copy">
+          <p>
+            Making Means and The Oasis Bulawayo invite artists and creatives
+            based in Bulawayo to register their interest in participating in an
+            upcoming local exhibition and creative gathering on
+            <time datetime="2026-11-27">27 November 2026</time>.
+          </p>
+          <p>
+            The open call is part of the inaugural Making Means edition, which
+            brings together three Zimbabwean artists living abroad in support of
+            locally led creative initiatives in Zimbabwe.
+          </p>
+          <p>
+            Through the online exhibition and artwork sales, Making Means is
+            helping support this local initiative, creating opportunities for
+            creative exchange and connection within Bulawayo’s artistic community.
+          </p>
+          <a
+            class="open-call-register"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSexC7JmB7KGQvko28yj337FsTIQopj5RDgCg6M1GJAoORDtjw/viewform"
+          >Register Here</a>
+          <p class="open-call-deadline">
+            Registration closes <time datetime="2026-10-30">30 October 2026</time>
+          </p>
+        </div>
+
+        <figure class="open-call-poster">
+          <img
+            :src="oasisOpenCallDesign"
+            alt="Making Means at The Oasis: call for visual artists. Seeking 15 artists with two recent artworks for 27 November 2026. Submission deadline: 30 October 2026."
+            loading="lazy"
+          >
+        </figure>
+      </div>
+    </section>
+
     <EntryContactStrip />
   </main>
 </template>
@@ -94,7 +138,7 @@ useSeoMeta({
 .oasis-hero {
   position: relative;
   display: grid;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   grid-template-columns: minmax(0, 1.08fr) minmax(24rem, 0.92fr);
   align-items: center;
   gap: clamp(1rem, 2vw, 2.5rem);
@@ -210,6 +254,98 @@ useSeoMeta({
   object-position: 54% 50%;
 }
 
+/* The poster is displayed from its bounds in the supplied design reference. */
+.oasis-open-call {
+  padding: 1rem clamp(1.25rem, 8.4vw, 10.75rem) clamp(3rem, 5vw, 6rem);
+}
+
+.open-call-heading {
+  margin-bottom: clamp(2rem, 4vw, 4rem);
+  text-align: center;
+}
+
+.open-call-heading h2 {
+  margin: 0;
+  color: var(--mm-gold);
+  font-size: clamp(2rem, 3.1vw, 4rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.open-call-heading h3 {
+  margin: 1.5rem 0 0;
+  font-size: clamp(1.5rem, 2.4vw, 3rem);
+  font-weight: 900;
+}
+
+.open-call-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(2rem, 5vw, 6rem);
+}
+
+.open-call-copy p {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.1rem, 1.45vw, 1.85rem);
+  line-height: 1.25;
+}
+
+.open-call-register {
+  display: inline-block;
+  border: 0;
+  border-radius: 2rem;
+  padding: 0.4rem 2rem;
+  background: var(--mm-white);
+  color: var(--mm-green);
+  font-family: inherit;
+  font-size: clamp(1.25rem, 1.7vw, 2.1rem);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.open-call-register:hover:not(:disabled) {
+  background: var(--mm-gold);
+}
+
+.open-call-register:focus-visible {
+  outline: 3px solid var(--mm-gold);
+  outline-offset: 5px;
+}
+
+.open-call-copy .open-call-deadline {
+  margin: 1.5rem 0 0;
+  color: var(--mm-gold);
+  font-weight: 900;
+}
+
+.open-call-poster {
+  position: relative;
+  aspect-ratio: 1;
+  margin: 0;
+  overflow: hidden;
+}
+
+.open-call-poster img {
+  position: absolute;
+  width: 350.685%;
+  max-width: none;
+  height: auto;
+  left: -205.137%;
+  top: -46.747%;
+}
+
+@media (max-width: 900px) {
+  .open-call-content {
+    grid-template-columns: 1fr;
+  }
+
+  .open-call-poster {
+    width: min(100%, 34rem);
+    justify-self: center;
+  }
+}
+
 @media (min-width: 1101px) {
   .oasis-page {
     min-height: calc(100dvh - 7rem);
@@ -218,7 +354,12 @@ useSeoMeta({
 
 @media (min-width: 1280px) and (min-height: 760px) {
   .oasis-page {
-    height: calc(100dvh - 7rem);
+    min-height: calc(100dvh - 7rem);
+  }
+
+  .oasis-hero {
+    min-height: calc(100dvh - 14rem);
+    box-sizing: border-box;
   }
 
   .oasis-page :deep(.entry-contact) {

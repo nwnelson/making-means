@@ -1,13 +1,29 @@
 <template>
   <section class="entry-exhibition" aria-labelledby="exhibition-title">
     <div class="exhibition-content">
-      <div>
-        <h2 id="exhibition-title">ONLINE EXHIBITION NOW OPEN</h2>
-        <p>Artwork sales begin <time datetime="2026-10-01">October 1, 2026</time>.</p>
-      </div>
-      <div class="exhibition-actions">
-        <NuxtLink to="/exhibition-sales" class="exhibition-link">VIEW ARTWORKS</NuxtLink>
-        <a href="#how-it-works" class="exhibition-link">HOW IT WORKS</a>
+      <div class="exhibition-columns">
+        <div class="exhibition-panel">
+          <h2 id="exhibition-title">ONLINE EXHIBITION</h2>
+          <p>
+            100% of artwork sale proceeds support The Oasis Bulawayo.
+            <strong>Now Open</strong>
+          </p>
+          <NuxtLink to="/exhibition-sales" class="exhibition-link">
+            EXPLORE THE EXHIBITION
+          </NuxtLink>
+        </div>
+        <div class="exhibition-panel exhibition-call">
+          <h2>OPEN CALL: BULAWAYO ARTISTS</h2>
+          <p>
+            In collaboration with The Oasis Bulawayo, we're inviting artists and
+            creatives in Bulawayo to register for an upcoming local exhibition and
+            creative gathering.
+            <strong>Deadline: <time datetime="2026-10-30">30 October 2026</time></strong>
+          </p>
+          <NuxtLink to="/the-oasis#making-means-x-the-oasis" class="exhibition-link">
+            FIND OUT MORE/REGISTER
+          </NuxtLink>
+        </div>
       </div>
     </div>
   </section>
@@ -27,48 +43,73 @@
 .exhibition-content {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: clamp(3rem, 10dvh, 7rem);
+  gap: clamp(2rem, 3vw, 3rem);
   padding: 0.75rem clamp(1.25rem, 11.25vw, 14rem) clamp(3rem, 7vw, 7rem);
 }
 
-.exhibition-content h2 {
+.exhibition-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.exhibition-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-right: clamp(1.5rem, 4vw, 4rem);
+}
+
+.exhibition-call {
+  border-left: clamp(0.25rem, 0.6vw, 0.75rem) solid var(--mm-gold);
+  padding-right: 0;
+  padding-left: clamp(1.5rem, 4vw, 4rem);
+}
+
+.exhibition-panel h2 {
   margin: 0;
   color: var(--mm-gold);
-  font-size: clamp(2rem, 3vw, 3rem);
+  font-size: clamp(1.35rem, 2vw, 2.5rem);
   font-weight: 900;
   line-height: 1.15;
 }
 
-.exhibition-content p {
-  margin: 1.5rem 0 0;
-  font-size: clamp(1.4rem, 2.8vw, 2.8rem);
-  line-height: 1.4;
+.exhibition-panel p {
+  margin: 1.5rem 0 2.5rem;
+  font-size: clamp(1.25rem, 1.8vw, 2.25rem);
+  line-height: 1.65;
 }
 
-.exhibition-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 2rem;
+.exhibition-panel strong {
+  display: block;
+  margin-top: 0.5rem;
+  font-weight: 900;
+}
+
+.exhibition-call p {
+  font-size: clamp(1.1rem, 1.4vw, 1.75rem);
 }
 
 .exhibition-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 39%;
-  padding: 1.5rem 2rem;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: auto;
+  padding: 1.5rem 1rem;
+  border: 0;
   border-radius: 2.5rem;
   background: var(--mm-white);
   color: var(--mm-green);
-  font-size: clamp(1.25rem, 2vw, 2rem);
+  font-family: inherit;
+  font-size: clamp(1rem, 1.5vw, 1.875rem);
   font-weight: 900;
   line-height: 1.15;
   text-align: center;
   text-decoration: none;
 }
 
-.exhibition-link:hover {
+.exhibition-link:hover:not(:disabled) {
   background: var(--mm-gold);
 }
 
@@ -82,13 +123,23 @@
     padding: 0.75rem 1.25rem 3rem;
   }
 
-  .exhibition-actions {
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
+  .exhibition-columns {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .exhibition-panel {
+    padding: 0;
+  }
+
+  .exhibition-call {
+    border-top: 0.25rem solid var(--mm-gold);
+    border-left: 0;
+    padding-top: 2rem;
   }
 
   .exhibition-link {
+    align-self: center;
     width: min(100%, 26rem);
   }
 }

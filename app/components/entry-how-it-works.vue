@@ -13,11 +13,11 @@
         </li>
         <li>
           <h3>03 — You purchase</h3>
-          <p>From October 1, collectors can purchase artworks from the online exhibition.</p>
+          <p>Collectors can purchase original artworks from the online exhibition, with 100% of artwork proceeds supporting the local initiative.</p>
         </li>
         <li>
-          <h3>04 — Funds support Zimbabwe</h3>
-          <p>Proceeds help fund a local event hosted by The Oasis Bulawayo.</p>
+          <h3>04 — Artwork sales help fund a local creative initiative</h3>
+          <p>Proceeds support a local event hosted by The Oasis Bulawayo, creating opportunities for artists and creatives in the community.</p>
         </li>
         <li>
           <h3>05 — We document the impact</h3>
@@ -36,7 +36,7 @@
 <style scoped>
 .entry-how {
   display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: clamp(2rem, 4vw, 4rem);
   min-height: calc(100dvh - 7rem);
@@ -47,6 +47,7 @@
 
 .how-copy h2 {
   margin: 0 0 2rem;
+  text-align: center;
   font-size: clamp(2rem, 2.8vw, 2.8rem);
   font-weight: 900;
   line-height: 1.1;
@@ -77,18 +78,20 @@
 
 .how-actions {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-auto-rows: 1fr;
   align-content: center;
   align-self: center;
+  justify-items: center;
   gap: 3rem;
-  border-left: 2px solid var(--mm-white);
-  padding-left: clamp(2rem, 4vw, 4rem);
 }
 
 .how-link {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  width: min(100%, 40rem);
   padding: 1.5rem 2rem;
   border-radius: 2.5rem;
   background: var(--mm-gold);
@@ -122,16 +125,17 @@
   }
 
   .how-actions {
-    justify-items: center;
-    border-top: 2px solid var(--mm-white);
-    border-left: 0;
-    padding-top: 2rem;
-    padding-left: 0;
     gap: 1.5rem;
   }
 
   .how-link {
     width: min(100%, 26rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .how-actions {
+    grid-template-columns: 1fr;
   }
 }
 </style>
