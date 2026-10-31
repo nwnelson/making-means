@@ -18,7 +18,7 @@
             In collaboration with The Oasis Bulawayo, we're inviting artists and
             creatives in Bulawayo to register for an upcoming local exhibition and
             creative gathering.
-            <strong>Deadline: <time datetime="2026-10-30">30 October 2026</time></strong>
+            <strong>Deadline: <time datetime="2026-11-12">12 November 2026</time></strong>
           </p>
           <NuxtLink to="/the-oasis#making-means-x-the-oasis" class="exhibition-link">
             FIND OUT MORE/REGISTER

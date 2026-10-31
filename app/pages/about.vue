@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import magacLogo from "~/assets/design/magac-logo.png";
+
 definePageMeta({ layout: false });
 
 useHead({
@@ -66,10 +68,22 @@ useSeoMeta({
         </div>
       </div>
 
-      <p class="about-research">
-        Making Means was developed as part of Jamie Stambolie Nelson's master's
-        research in Cultural Management
-      </p>
+      <div class="about-support">
+        <p class="about-research">
+          Making Means was developed as part of Jamie Stambolie Nelson's master's
+          research in Cultural Management.
+        </p>
+
+        <p class="about-support-text">
+          The 2026 pilot project is supported by the Fondo Semilla MAGAC.
+        </p>
+
+        <img
+          :src="magacLogo"
+          alt="MAGAC logo"
+          class="about-support-logo"
+        >
+      </div>
     </section>
 
     <EntryContactStrip />
@@ -147,6 +161,28 @@ useSeoMeta({
   font-weight: 900;
   line-height: 1.2;
   text-align: center;
+}
+
+.about-support {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.about-support-text {
+  margin: 0;
+  color: var(--mm-gold);
+  font-size: clamp(1.05rem, 1.45vw, 1.75rem);
+  line-height: 1.2;
+  text-align: center;
+}
+
+.about-support-logo {
+  display: block;
+  width: clamp(3.5rem, 4.5vw, 5rem);
+  height: auto;
+  margin-top: 0.2rem;
 }
 
 @media (min-width: 1101px) {

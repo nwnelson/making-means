@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import oasisOpenCallDesign from "~/assets/design/theOasisPage2.png";
+import oasisFlyer from "~/assets/images/theOasisFlyer.JPG";
 import oasisExterior from "~/assets/images/The Oasis space 3.jpg";
 import oasisInterior from "~/assets/images/Oasis space 2.jpg";
 
@@ -107,14 +107,14 @@ useSeoMeta({
             href="https://docs.google.com/forms/d/e/1FAIpQLSexC7JmB7KGQvko28yj337FsTIQopj5RDgCg6M1GJAoORDtjw/viewform"
           >Register Here</a>
           <p class="open-call-deadline">
-            Registration closes <time datetime="2026-10-30">30 October 2026</time>
+            Registration closes <time datetime="2026-11-12">12 November 2026</time>
           </p>
         </div>
 
         <figure class="open-call-poster">
           <img
-            :src="oasisOpenCallDesign"
-            alt="Making Means at The Oasis: call for visual artists. Seeking 15 artists with two recent artworks for 27 November 2026. Submission deadline: 30 October 2026."
+            :src="oasisFlyer"
+            alt="Making Means at The Oasis call for visual artists. Seeking 15 artists with two recent artworks for an exhibition on 27 November 2026. Submissions close 12 November 2026."
             loading="lazy"
           >
         </figure>
@@ -327,12 +327,10 @@ useSeoMeta({
 }
 
 .open-call-poster img {
-  position: absolute;
-  width: 350.685%;
-  max-width: none;
-  height: auto;
-  left: -205.137%;
-  top: -46.747%;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 @media (max-width: 900px) {
