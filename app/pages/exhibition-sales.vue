@@ -22,7 +22,7 @@ useSeoMeta({
 });
 
 const { getExhibitionArtworks } = useArtworks();
-const { data: artworks, pending, error } = await getExhibitionArtworks();
+const { data: artworks, pending, error } = await getExhibitionArtworks(true);
 const failedImages = ref(new Set<string>());
 
 function imageFailed(id: string) {

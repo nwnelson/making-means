@@ -355,14 +355,20 @@ async function getArtworks(supabase: SupabaseClient<Database>) {
   return artworks;
 }
 
-async function getExhibitionArtworks(supabase: SupabaseClient<Database>) {
-  const { data: artworks, error } = await supabase
+async function getExhibitionArtworks(
+  supabase: SupabaseClient<Database>,
+  includeSold = false,
+) {
+  const query = supabase
     .from("artworks")
     .select(
       "id, title, image_path, price, dimensions, artist:artists!artworks_artist_id_fkey(id, name)",
     )
-    .eq("sold", false)
     .order("created_at", { ascending: false });
+
+  if (!includeSold) query.eq("sold", false);
+
+  const { data: artworks, error } = await query;
 
   if (error || !artworks) {
     throw createError({

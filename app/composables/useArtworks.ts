@@ -15,8 +15,10 @@ export function useArtworks() {
     });
   };
 
-  const getExhibitionArtworks = async () => {
-    return useFetch<ExhibitionArtwork[]>("/api/artworks/exhibition");
+  const getExhibitionArtworks = async (includeSold = false) => {
+    return useFetch<ExhibitionArtwork[]>("/api/artworks/exhibition", {
+      query: { includeSold },
+    });
   };
 
   const updateArtwork = async (id: string, form: FormData) => {
