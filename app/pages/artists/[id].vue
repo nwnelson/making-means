@@ -8,7 +8,7 @@ const { getArtist } = useArtists();
 const { data: artist, pending, error } = await getArtist(artistId.value);
 
 const { getExhibitionArtworks } = useArtworks();
-const { data: artworks } = await getExhibitionArtworks();
+const { data: artworks } = await getExhibitionArtworks(true);
 const artistArtwork = computed(() =>
   artworks.value?.find((artwork) => artwork.artist?.id === artistId.value),
 );
