@@ -124,6 +124,7 @@ async function updateArtwork(
     const { error } = await supabase
       .from("artworks")
       .update({
+        ...(artwork.sold !== undefined ? { sold: artwork.sold } : {}),
         title: artwork.title,
         description: artwork.description,
         location: artwork.location?.trim() || null,

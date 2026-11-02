@@ -11,6 +11,7 @@ const artworkFields = {
 
 export const artworkFormSchema = z.object({
   ...artworkFields,
+  sold: z.boolean().optional(),
   artwork_note: z.string().optional(),
   artist: z.uuid({ message: "Artist is required" }),
 }).strict().strip();

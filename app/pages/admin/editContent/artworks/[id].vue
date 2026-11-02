@@ -51,6 +51,7 @@ const editedArtwork = ref<ArtworkData>({
   price: "",
   artist: artwork.value?.artist_id || "",
   artwork_note: "",
+  sold: false,
 });
 
 const image = ref<File | null>(null);
@@ -67,6 +68,7 @@ function startEdit() {
     price: artwork.value?.price?.toString() || "",
     artist: artwork.value?.artist_id || "",
     artwork_note: artwork.value?.artwork_note || "",
+    sold: artwork.value?.sold ?? false,
   };
   artistName.value =
     artists.value?.find((artist) => artist.id === artwork.value?.artist_id)
@@ -84,6 +86,7 @@ function stopEdit() {
     price: "",
     artist: artwork.value?.artist_id || "",
     artwork_note: "",
+    sold: false,
   };
   artistName.value = "";
   image.value = null;
@@ -100,6 +103,7 @@ async function save() {
   const newDimensions = editedArtwork.value.dimensions;
   const newArtist = editedArtwork.value.artist;
   const newNote = editedArtwork.value.artwork_note || "";
+  const newSold = editedArtwork.value.sold ?? false;
   if (!newTitle || !newDesc || !newPrice || !newDimensions || !newArtist) {
     toast.error("Please change at least one field to update the artwork");
     return;
@@ -112,7 +116,8 @@ async function save() {
     newPrice === artwork.value?.price?.toString() &&
     newDimensions === artwork.value?.dimensions &&
     newArtist === artwork.value?.artist_id &&
-    newNote === artwork.value?.artwork_note
+    newNote === (artwork.value?.artwork_note || "") &&
+    newSold === artwork.value?.sold
   ) {
     toast.error("No changes have been made!");
     return;
@@ -127,6 +132,7 @@ async function save() {
   form.append("artist", newArtist);
   form.append("artwork_note", newNote);
   form.append("price", newPrice);
+  form.append("sold", String(newSold));
 
   try {
     startLoading();
@@ -193,6 +199,7 @@ async function deleteArtwork() {
           <div class="admin-field"><label for="edit-artwork-title">Title</label><input id="edit-artwork-title" v-model="editedArtwork.title" type="text" ></div>
           <div class="admin-field"><label for="edit-artwork-description">Description</label><textarea id="edit-artwork-description" v-model="editedArtwork.description" /></div>
           <div class="admin-field"><label for="edit-artwork-price">Price <span class="field-unit">USD</span></label><input id="edit-artwork-price" v-model="editedArtwork.price" type="text" inputmode="decimal" ></div>
+          <div class="artwork-sold-field"><input id="edit-artwork-sold" v-model="editedArtwork.sold" type="checkbox" ><label for="edit-artwork-sold">Sold</label></div>
           <div class="admin-field"><label for="edit-artwork-dimensions">Dimensions</label><input id="edit-artwork-dimensions" v-model="editedArtwork.dimensions" type="text" ></div>
           <div class="admin-field"><label for="edit-artwork-location">Location <span class="field-unit">Optional</span></label><input id="edit-artwork-location" v-model="editedArtwork.location" type="text" ></div>
           <div class="admin-field"><label for="edit-artwork-note">Artwork note <span class="field-unit">Optional</span></label><textarea id="edit-artwork-note" v-model="editedArtwork.artwork_note" /></div>
@@ -214,6 +221,7 @@ async function deleteArtwork() {
   height: auto;
   object-fit: contain;
 }
+.artwork-sold-field { display: flex; align-items: center; gap: 0.5rem; }
 .artwork-actions { margin-top: 1.5rem; }
 .edit-form-panel { max-width: 46rem; }
 .field-unit { color: #68736c; font-weight: 400; letter-spacing: 0; text-transform: none; }

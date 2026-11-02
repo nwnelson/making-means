@@ -133,6 +133,7 @@ function resetInquiryForm() {
 }
 
 function openPurchaseInfo() {
+  if (artwork.value?.sold) return;
   resetInquiryForm();
   purchaseInfoDialog.value?.showModal();
 }
@@ -288,16 +289,13 @@ useHead({
         </div>
 
         <button
-          v-if="!artwork.sold"
           type="button"
           class="artwork-buy-button"
+          :disabled="artwork.sold"
           @click="openPurchaseInfo"
         >
-          Request To Purchase
+          {{ artwork.sold ? "Sold" : "Request To Purchase" }}
         </button>
-        <p v-else class="artwork-availability">
-          Sold
-        </p>
 
         <dialog
           ref="purchaseInfoDialog"
@@ -608,7 +606,7 @@ useHead({
   text-decoration: none;
 }
 
-.artwork-buy-button:hover {
+.artwork-buy-button:not(:disabled):hover {
   filter: brightness(1.08);
 }
 
@@ -617,10 +615,9 @@ useHead({
   outline-offset: 0.35rem;
 }
 
-.artwork-availability {
-  margin-top: 1.75rem;
-  color: var(--artwork-gold);
-  font-weight: 900;
+.artwork-buy-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .purchase-info-dialog {
