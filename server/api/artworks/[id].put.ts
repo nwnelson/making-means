@@ -31,6 +31,14 @@ export default defineEventHandler(async (event) => {
   }
 
   const artworkForm = extractNewArtworkFormData(form);
+  const soldField = form.find((field) => field.name === "sold");
+  if (soldField) {
+    const sold = soldField.data.toString();
+    if (sold !== "true" && sold !== "false") {
+      throw createError({ statusCode: 400, statusMessage: "Invalid sold value" });
+    }
+    artworkForm.sold = sold === "true";
+  }
 
   const validatedForm = await validateNewArtworkForm(artworkForm);
   if (!validatedForm.success) {

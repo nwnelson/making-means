@@ -1,4 +1,5 @@
 export type ArtworkData = {
+  sold?: boolean;
   title: string;
   description: string;
   location?: string | null;
