@@ -43,7 +43,7 @@
   display: flex;
   flex-direction: column;
   gap: clamp(2rem, 3vw, 3rem);
-  padding: 3rem clamp(1.25rem, 5.6vw, 7rem) 0;
+  padding: 0.75rem clamp(1.25rem, 5.6vw, 7rem) 0;
 }
 
 .exhibition-columns {
@@ -55,7 +55,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 2.5rem clamp(1.5rem, 7vw, 8.5rem) 1rem 0;
+  padding: 0 clamp(1.5rem, 7vw, 8.5rem) 1rem 0;
 }
 
 .exhibition-call {
