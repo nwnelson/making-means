@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import oasisFlyer from "~/assets/images/theOasisFlyer.JPG";
+import eventPoster from "~/assets/images/art-talks-and-exhibition.jpg";
 import oasisExterior from "~/assets/images/The Oasis space 3.jpg";
 import oasisInterior from "~/assets/images/Oasis space 2.jpg";
 
@@ -78,43 +78,43 @@ useSeoMeta({
       </div>
     </section>
 
-    <section id="making-means-x-the-oasis" class="oasis-open-call" aria-labelledby="open-call-title">
-      <header class="open-call-heading">
-        <h2 id="open-call-title">Making Means X The Oasis</h2>
-        <h3>Open Call: Bulawayo Artists</h3>
-      </header>
+    <section id="making-means-x-the-oasis" class="oasis-event" aria-labelledby="event-title">
+      <h2 id="event-title">Making Means X The Oasis</h2>
 
-      <div class="open-call-content">
-        <div class="open-call-copy">
+      <div class="event-content">
+        <div class="event-copy">
+          <h3>An Evening of Art Talks &amp; Exhibition</h3>
           <p>
-            Making Means and The Oasis Bulawayo invite artists and creatives
-            based in Bulawayo to register their interest in participating in an
-            upcoming local exhibition and creative gathering on
-            <time datetime="2026-11-27">27 November 2026</time>.
+            Join us at The Oasis Bulawayo on 27 November 2026 for an evening of art,
+            ideas and conversation, celebrating the culmination of this year's Making
+            Means initiative.
           </p>
           <p>
-            The open call is part of the inaugural Making Means edition, which
-            brings together three Zimbabwean artists living abroad in support of
-            locally led creative initiatives in Zimbabwe.
+            Combining an exhibition celebrating local artistic talent with panel
+            discussions on developing a professional artistic career, the gathering will
+            bring together artists, creatives and the wider community for an evening of
+            inspiration and exchange.
           </p>
           <p>
-            Through the online exhibition and artwork sales, Making Means is
-            helping support this local initiative, creating opportunities for
-            creative exchange and connection within Bulawayo’s artistic community.
+            While the event will take place in person at The Oasis, our three
+            participating Zimbabwean artists living abroad will join in virtually, creating an
+            opportunity for conversation and connection that extends beyond borders.
           </p>
-          <a
-            class="open-call-register"
-            href="https://docs.google.com/forms/d/e/1FAIpQLSexC7JmB7KGQvko28yj337FsTIQopj5RDgCg6M1GJAoORDtjw/viewform"
-          >Register Here</a>
-          <p class="open-call-deadline">
-            Registration closes <time datetime="2026-11-12">12 November 2026</time>
+          <p>
+            Through the inaugural Making Means online exhibition and artwork sales,
+            100% of proceeds support this local event, organised in collaboration with
+            The Oasis Bulawayo.
+          </p>
+          <p class="event-details">
+            <time datetime="2026-11-27">Friday, 27 November 2026</time> | 4:30 PM – 7:00 PM<br>
+            FREE ADMISSION · OPEN TO ALL
           </p>
         </div>
 
-        <figure class="open-call-poster">
+        <figure class="event-poster">
           <img
-            :src="oasisFlyer"
-            alt="Making Means at The Oasis call for visual artists. Seeking 15 artists with two recent artworks for an exhibition on 27 November 2026. Submissions close 12 November 2026."
+            :src="eventPoster"
+            alt="Making Means at The Oasis: Art Talks and Exhibition, 27 November 2026, 4:30–7 PM, 19 Falcon Street, Belmont, Bulawayo. Free admission, open to the public."
             loading="lazy"
           >
         </figure>
@@ -174,7 +174,7 @@ useSeoMeta({
 .oasis-details {
   position: relative;
   z-index: 1;
-  width: min(132%, 84rem);
+  width: 100%;
   margin-top: clamp(1.35rem, 3dvh, 2.75rem);
   padding: clamp(1rem, 1.8dvh, 1.6rem) clamp(1rem, 1.2vw, 1.5rem);
   background: var(--mm-gold);
@@ -254,92 +254,64 @@ useSeoMeta({
   object-position: 54% 50%;
 }
 
-/* The poster is displayed from its bounds in the supplied design reference. */
-.oasis-open-call {
-  padding: 1rem clamp(1.25rem, 8.4vw, 10.75rem) clamp(3rem, 5vw, 6rem);
+.oasis-event {
+  padding: 1rem clamp(1.25rem, 8.4vw, 10.75rem) clamp(3rem, 3.5vw, 4rem);
+  scroll-margin-top: 2rem;
 }
 
-.open-call-heading {
-  margin-bottom: clamp(2rem, 4vw, 4rem);
-  text-align: center;
-}
-
-.open-call-heading h2 {
-  margin: 0;
+.oasis-event h2 {
+  margin: 0 0 clamp(2rem, 4vw, 4rem);
   color: var(--mm-gold);
   font-size: clamp(2rem, 3.1vw, 4rem);
   font-weight: 400;
   line-height: 1.2;
+  text-align: center;
 }
 
-.open-call-heading h3 {
-  margin: 1.5rem 0 0;
-  font-size: clamp(1.5rem, 2.4vw, 3rem);
-  font-weight: 900;
-}
-
-.open-call-content {
+.event-content {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
   align-items: start;
-  gap: clamp(2rem, 5vw, 6rem);
+  gap: clamp(2rem, 3vw, 3.5rem);
 }
 
-.open-call-copy p {
+.event-copy h3 {
   margin: 0 0 1.5rem;
-  font-size: clamp(1.1rem, 1.45vw, 1.85rem);
-  line-height: 1.25;
-}
-
-.open-call-register {
-  display: inline-block;
-  border: 0;
-  border-radius: 2rem;
-  padding: 0.4rem 2rem;
-  background: var(--mm-white);
-  color: var(--mm-green);
-  font-family: inherit;
-  font-size: clamp(1.25rem, 1.7vw, 2.1rem);
+  font-size: clamp(1.5rem, 2.5vw, 3rem);
   font-weight: 900;
-  text-decoration: none;
+  line-height: 1.15;
 }
 
-.open-call-register:hover:not(:disabled) {
-  background: var(--mm-gold);
+.event-copy p {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.1rem, 1.4vw, 1.85rem);
+  line-height: 1.2;
 }
 
-.open-call-register:focus-visible {
-  outline: 3px solid var(--mm-gold);
-  outline-offset: 5px;
-}
-
-.open-call-copy .open-call-deadline {
-  margin: 1.5rem 0 0;
+.event-copy .event-details {
+  margin-bottom: 0;
   color: var(--mm-gold);
   font-weight: 900;
 }
 
-.open-call-poster {
-  position: relative;
-  aspect-ratio: 1;
-  margin: 0;
-  overflow: hidden;
+.event-poster {
+  margin: 1.5rem 0 0;
 }
 
-.open-call-poster img {
+.event-poster img {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: auto;
 }
 
 @media (max-width: 900px) {
-  .open-call-content {
+  .event-content {
     grid-template-columns: 1fr;
   }
 
-  .open-call-poster {
+  .event-poster {
     width: min(100%, 34rem);
+    margin: 0;
     justify-self: center;
   }
 }

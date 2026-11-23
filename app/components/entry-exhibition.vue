@@ -5,7 +5,8 @@
         <div class="exhibition-panel">
           <h2 id="exhibition-title">ONLINE EXHIBITION</h2>
           <p>
-            100% of artwork sale proceeds support The Oasis Bulawayo.
+            100% of artwork sale proceeds go towards supporting the upcoming
+            event at The Oasis Bulawayo.
             <strong>Now Open</strong>
           </p>
           <NuxtLink to="/exhibition-sales" class="exhibition-link">
@@ -13,15 +14,14 @@
           </NuxtLink>
         </div>
         <div class="exhibition-panel exhibition-call">
-          <h2>OPEN CALL: BULAWAYO ARTISTS</h2>
+          <h2>JOIN US IN BULAWAYO</h2>
           <p>
-            In collaboration with The Oasis Bulawayo, we're inviting artists and
-            creatives in Bulawayo to register for an upcoming local exhibition and
-            creative gathering.
-            <strong>Deadline: <time datetime="2026-11-12">12 November 2026</time></strong>
+            The Oasis Bulawayo invites you to an evening of art talks and exhibition,
+            celebrating the culmination of this year's creative initiative.
+            <strong><time datetime="2026-11-27">27 November 2026</time> | 4:30–7 PM</strong>
           </p>
           <NuxtLink to="/the-oasis#making-means-x-the-oasis" class="exhibition-link">
-            FIND OUT MORE/REGISTER
+            VIEW EVENT DETAILS
           </NuxtLink>
         </div>
       </div>
@@ -36,7 +36,6 @@
   flex-direction: column;
   margin-top: -3rem;
   border-top: 1.25rem solid var(--mm-green);
-  border-bottom: clamp(3rem, 5vw, 5rem) solid var(--mm-gold);
   font-family: Lato, Arial, sans-serif;
 }
 
@@ -44,7 +43,7 @@
   display: flex;
   flex-direction: column;
   gap: clamp(2rem, 3vw, 3rem);
-  padding: 0.75rem clamp(1.25rem, 11.25vw, 14rem) clamp(3rem, 7vw, 7rem);
+  padding: 3rem clamp(1.25rem, 5.6vw, 7rem) 0;
 }
 
 .exhibition-columns {
@@ -56,26 +55,26 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-right: clamp(1.5rem, 4vw, 4rem);
+  padding: 2.5rem clamp(1.5rem, 7vw, 8.5rem) 1rem 0;
 }
 
 .exhibition-call {
   border-left: clamp(0.25rem, 0.6vw, 0.75rem) solid var(--mm-gold);
   padding-right: 0;
-  padding-left: clamp(1.5rem, 4vw, 4rem);
+  padding-left: clamp(1.5rem, 7vw, 8.5rem);
 }
 
 .exhibition-panel h2 {
   margin: 0;
   color: var(--mm-gold);
-  font-size: clamp(1.35rem, 2vw, 2.5rem);
+  font-size: clamp(1.35rem, 2.3vw, 2.9rem);
   font-weight: 900;
   line-height: 1.15;
 }
 
 .exhibition-panel p {
   margin: 1.5rem 0 2.5rem;
-  font-size: clamp(1.25rem, 1.8vw, 2.25rem);
+  font-size: clamp(1.25rem, 2.15vw, 2.6rem);
   line-height: 1.65;
 }
 
@@ -86,7 +85,7 @@
 }
 
 .exhibition-call p {
-  font-size: clamp(1.1rem, 1.4vw, 1.75rem);
+  font-size: clamp(1.1rem, 1.85vw, 2.25rem);
 }
 
 .exhibition-link {
@@ -94,11 +93,12 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  width: 100%;
+  width: 90%;
+  align-self: center;
   margin-top: auto;
   padding: 1.5rem 1rem;
   border: 0;
-  border-radius: 2.5rem;
+  border-radius: 5rem;
   background: var(--mm-white);
   color: var(--mm-green);
   font-family: inherit;
